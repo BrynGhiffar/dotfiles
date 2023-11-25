@@ -42,7 +42,6 @@ def backlight(action):
         index = 5
         brightness = int(subprocess.run(['xbacklight', '-get'],
                                         stdout=subprocess.PIPE).stdout)
-        logger.warning(f"brightness: {brightness}, {action = }")
         if action == "inc":
             res = subprocess.run(['sudo', 'xbacklight', '-inc', f"{index}"], 
                                  stdout=subprocess.PIPE, 
@@ -55,14 +54,6 @@ def backlight(action):
                                  stdout=subprocess.PIPE, 
                                  stderr=subprocess.PIPE
             )
-        logger.warning(f"{res = }")
-        # if brightness != 1 or action != 'dec':
-        #     if (brightness > 49 and action == 'dec') \
-        #                         or (brightness > 39 and action == 'inc'):
-        #         subprocess.run(['xbacklight', f'-{action}', '10',
-        #                         '-fps', '10'])
-        #     else:
-        #         subprocess.run(['xbacklight', f'-{action}', '1'])
     return f
 
 keys = [
@@ -73,7 +64,8 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "space", lazy.spawn("rofi -show run"), desc="spawn rofi"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -151,9 +143,11 @@ layouts = [
         # border_focus="#ffffff",
         border_focus_stack=["#d75f5f", "#8f3d3d"],
         border_width=4,
-        margin=10
+        margin=5
     ),
-    layout.Max(),
+    layout.Max(
+        margin=5
+    ),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
