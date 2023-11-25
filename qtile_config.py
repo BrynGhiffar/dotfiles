@@ -30,7 +30,8 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = guess_terminal()
+# terminal = guess_terminal()
+terminal = "kitty"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -109,6 +110,7 @@ for i in groups:
 layouts = [
     layout.Columns(
         border_focus="#3489eb",
+        # border_focus="#ffffff",
         border_focus_stack=["#d75f5f", "#8f3d3d"],
         border_width=4,
         margin=10
