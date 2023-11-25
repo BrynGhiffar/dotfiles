@@ -28,10 +28,42 @@ from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from libqtile.log_utils import logger
+# from bar1 import bar
+from default_bar import bar
+import subprocess
 
 mod = "mod4"
 # terminal = guess_terminal()
 terminal = "kitty"
+
+def backlight(action):
+    def f(qtile):
+        index = 5
+        brightness = int(subprocess.run(['xbacklight', '-get'],
+                                        stdout=subprocess.PIPE).stdout)
+        logger.warning(f"brightness: {brightness}, {action = }")
+        if action == "inc":
+            res = subprocess.run(['sudo', 'xbacklight', '-inc', f"{index}"], 
+                                 stdout=subprocess.PIPE, 
+                                 stderr=subprocess.PIPE
+            )
+        else:
+            if brightness - index <= 0:
+                return
+            res = subprocess.run(['sudo', 'xbacklight', '-dec', f"{index}"], 
+                                 stdout=subprocess.PIPE, 
+                                 stderr=subprocess.PIPE
+            )
+        logger.warning(f"{res = }")
+        # if brightness != 1 or action != 'dec':
+        #     if (brightness > 49 and action == 'dec') \
+        #                         or (brightness > 39 and action == 'inc'):
+        #         subprocess.run(['xbacklight', f'-{action}', '10',
+        #                         '-fps', '10'])
+        #     else:
+        #         subprocess.run(['xbacklight', f'-{action}', '1'])
+    return f
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -59,6 +91,12 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
+    Key([], 'XF86MonBrightnessUp',   lazy.function(backlight('inc'))),
+    Key([], 'XF86MonBrightnessDown', lazy.function(backlight('dec'))),
+
+    Key([], 'XF86AudioMute', lazy.spawn('ponymix toggle')),
+    Key([], 'XF86AudioRaiseVolume', lazy.spawn('ponymix increase 5')),
+    Key([], 'XF86AudioLowerVolume', lazy.spawn('ponymix decrease 5')),
     Key(
         [mod, "shift"],
         "Return",
@@ -136,36 +174,10 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+
 screens = [
     Screen(
-        bottom=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                # widget.StatusNotifier(),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            24,
-            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
-        # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
-        # By default we handle these events delayed to already improve performance, however your system might still be struggling
-        # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
-        # x11_drag_polling_rate = 60,
+        top=bar
     ),
 ]
 
