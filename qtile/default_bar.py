@@ -1,5 +1,4 @@
 from libqtile import widget, bar
-from hello import hello
 from unicodes import left_arrow,right_arrow
 from colors import nord_fox
 
@@ -16,14 +15,26 @@ bar = bar.Bar(
             highlight_color=nord_fox['bg'],
             background=nord_fox['red'],
             borderwidth=0,
-            highlight_method='line'
+            highlight_method='line',
+            padding=13
         ),
         right_arrow(nord_fox['fg_gutter'], nord_fox['red']),
         widget.Prompt(
             background=nord_fox['fg_gutter']
         ),
-        widget.WindowName(
-            background=nord_fox['fg_gutter']
+        # widget.WindowName(
+        #     background=nord_fox['fg_gutter']
+        # ),
+        # widget.WindowTabs(
+        #     background=nord_fox['fg_gutter'],
+        #     selected=('<b>[',"]</b>")
+        # ),
+        widget.TaskList(
+            border=nord_fox['bg'],
+            borderwidth=0,
+            highlight_method="block",
+            background=nord_fox['fg_gutter'],
+            urgent_border=nord_fox['cyan']
         ),
         widget.Chord(
             chords_colors={
@@ -31,17 +42,16 @@ bar = bar.Bar(
             },
             name_transform=lambda name: name.upper(),
         ),
-        # widget.TextBox(hello(), name="default"),
         # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
         # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
         # widget.StatusNotifier(),
         left_arrow(nord_fox['fg_gutter'], nord_fox['orange']),
-        widget.TextBox("Volume", background=nord_fox['orange']),
+        widget.TextBox("", background=nord_fox['orange'], fontsize=30),
         widget.PulseVolume(
             background=nord_fox['orange'],
         ),
         left_arrow(nord_fox['orange'], nord_fox['green']),
-        widget.TextBox("Brightness", background=nord_fox['green']),
+        widget.TextBox(text="", background=nord_fox['green'], fontsize=30),
         widget.Backlight(
             backlight_name="intel_backlight",
             brightness_file="brightness",
