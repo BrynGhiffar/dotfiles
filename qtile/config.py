@@ -1,36 +1,11 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.log_utils import logger
-# from bar1 import bar
-from default_bar import bar
+from libqtile.core.manager import Qtile
+from bar_preset import left_bar, right_bar
+import traverse
 import subprocess
 
 mod = "mod4"
@@ -60,10 +35,10 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
+    Key([mod], "h", lazy.function(traverse.left), desc="Move focus to left"),
+    Key([mod], "l", lazy.function(traverse.right), desc="Move focus to right"),
+    Key([mod], "j", lazy.function(traverse.down), desc="Move focus down"),
+    Key([mod], "k", lazy.function(traverse.up), desc="Move focus up"),
     # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "space", lazy.spawn("rofi -show run"), desc="spawn rofi"),
     # Move windows between left/right columns or move up/down in current stack.
@@ -79,6 +54,7 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key([mod, "control"], "s", lazy.spawn("maim --select | xclip -selection clipboard -t image/png", shell=True)),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -111,7 +87,65 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
-groups = [Group(i) for i in "123456789"]
+groups = [
+    Group(name="1", screen_affinity=0),
+    Group(name="2", screen_affinity=0),
+    Group(name="3", screen_affinity=0),
+    Group(name="a", screen_affinity=1),
+    Group(name="s", screen_affinity=1),
+    Group(name="d", screen_affinity=1),
+]
+
+@hook.subscribe.focus_change
+def focus_changed():
+    qtile.current_window.bring_to_front()
+    # name = qtile.current_window.name
+    # logger.warning(f"Focus change {name}")
+
+
+def go_to_group(name: str):
+    def _inner(qtile):
+        if len(qtile.screens) == 1:
+            qtile.groups_map[name].toscreen()
+            return
+
+        if name in '123':
+            qtile.focus_screen(0)
+            qtile.groups_map[name].toscreen()
+        else:
+            qtile.focus_screen(1)
+            qtile.groups_map[name].toscreen()
+
+    return _inner
+
+def go_to_group_and_move_window(name: str):
+    def _inner(qtile):
+        if len(qtile.screens) == 1:
+            qtile.current_window.togroup(name, switch_group=True)
+            return
+
+        if name in "123":
+            qtile.current_window.togroup(name, switch_group=False)
+            qtile.focus_screen(0)
+            qtile.groups_map[name].toscreen()
+        else:
+            qtile.current_window.togroup(name, switch_group=False)
+            qtile.focus_screen(1)
+            qtile.groups_map[name].toscreen()
+
+    return _inner
+
+def switch_group(qtile, groupName):
+    screens = [screen for screen in qtile.screens]
+    for screen in screens:
+        if groupName == screen.group.name:
+            qtile.focus_screen(screen.index)
+            return
+    for group in qtile.groups:
+        if group.name == groupName:
+            group.toscreen()
+    return
+
 
 for i in groups:
     keys.extend(
@@ -120,14 +154,16 @@ for i in groups:
             Key(
                 [mod],
                 i.name,
-                lazy.group[i.name].toscreen(),
+                # lazy.group[i.name].toscreen(),
+                lazy.function(go_to_group(i.name)),
                 desc="Switch to group {}".format(i.name),
             ),
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key(
                 [mod, "shift"],
                 i.name,
-                lazy.window.togroup(i.name, switch_group=True),
+                # lazy.window.togroup(i.name, switch_group=False),
+                lazy.function(go_to_group_and_move_window(i.name)),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
             # Or, use below if you prefer not to switch to that group.
@@ -141,11 +177,14 @@ layouts = [
     layout.Columns(
         border_focus="#3489eb",
         # border_focus="#ffffff",
+        border_on_single=True,
         border_focus_stack=["#d75f5f", "#8f3d3d"],
-        border_width=4,
+        border_width=3,
         margin=5
     ),
     layout.Max(
+        border_focus="#3489eb",
+        border_width=3,
         margin=5
     ),
     # Try more layouts by unleashing below layouts.
@@ -163,7 +202,7 @@ layouts = [
 
 widget_defaults = dict(
     font="FiraCode Nerd Font Mono",
-    fontsize=12,
+    fontsize=10,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -171,7 +210,10 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        top=bar
+        top=left_bar
+    ),
+    Screen(
+        top=right_bar
     ),
 ]
 
@@ -184,11 +226,13 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
-bring_front_click = False
+follow_mouse_focus = False
+bring_front_click = True
 floats_kept_above = True
-cursor_warp = False
+cursor_warp = True
 floating_layout = layout.Floating(
+    border_focus="#3489eb",
+    border_width=3,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
