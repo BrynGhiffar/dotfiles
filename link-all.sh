@@ -41,3 +41,8 @@ if [ -d ~/.config/hypr ]; then
   rm -r ~/.config/hypr
 fi
 ln -s $conf_loc/hypr ~/.config
+
+if [ -d ~/.config/waybar ]; then
+  rm -r ~/.config/waybar
+fi
+ln -s $conf_loc/waybar ~/.config
