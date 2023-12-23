@@ -51,3 +51,8 @@ if [ -d ~/.config/neofetch ]; then
   rm -r ~/.config/neofetch
 fi
 ln -s $conf_loc/neofetch ~/.config
+
+if [ -d ~/.config/dunst ]; then
+  rm -r ~/.config/dunst
+fi
+ln -s $conf_loc/dunst ~/.config
