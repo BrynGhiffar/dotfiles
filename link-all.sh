@@ -46,3 +46,8 @@ if [ -d ~/.config/waybar ]; then
   rm -r ~/.config/waybar
 fi
 ln -s $conf_loc/waybar ~/.config
+
+if [ -d ~/.config/neofetch ]; then
+  rm -r ~/.config/neofetch
+fi
+ln -s $conf_loc/neofetch ~/.config
