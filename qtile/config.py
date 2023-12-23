@@ -12,6 +12,9 @@ mod = "mod4"
 # terminal = guess_terminal()
 terminal = "kitty"
 
+ROFI_GET_WINDOWS = "/home/bryn/arch-config/rofi/scripts/get_windows.py"
+ROFI_SET_WINDOW = "/home/bryn/arch-config/rofi/scripts/set_window.py"
+
 def backlight(action):
     def f(qtile):
         index = 5
@@ -37,8 +40,8 @@ keys = [
     # Switch between windows
     Key([mod], "h", lazy.function(traverse.left), desc="Move focus to left"),
     Key([mod], "l", lazy.function(traverse.right), desc="Move focus to right"),
-    Key([mod], "j", lazy.function(traverse.down), desc="Move focus down"),
-    Key([mod], "k", lazy.function(traverse.up), desc="Move focus up"),
+    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "space", lazy.spawn("rofi -show run"), desc="spawn rofi"),
     # Move windows between left/right columns or move up/down in current stack.
@@ -55,6 +58,8 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
     Key([mod, "control"], "s", lazy.spawn("maim --select | xclip -selection clipboard -t image/png", shell=True)),
+    Key([mod], "r", lazy.spawn(f"{ROFI_SET_WINDOW} \"$({ROFI_GET_WINDOWS} | rofi -dmenu -i -p \"\")\"", shell=True)),
+    # Key([mod], "r", lazy.spawn(f"wmctrl -i -a \"$({ROFI_GET_WINDOWS} | rofi -dmenu -i -p \"\" | cut -d '|' -f 4)\"", shell=True)),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -66,8 +71,8 @@ keys = [
     Key([], 'XF86AudioRaiseVolume', lazy.spawn('ponymix increase 5')),
     Key([], 'XF86AudioLowerVolume', lazy.spawn('ponymix decrease 5')),
     Key(
-        [mod, "shift"],
-        "Return",
+        [mod],
+        "m",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
@@ -84,14 +89,13 @@ keys = [
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
 groups = [
     Group(name="1", screen_affinity=0),
     Group(name="2", screen_affinity=0),
-    Group(name="3", screen_affinity=0),
-    Group(name="a", screen_affinity=1),
+    Group(name="3", screen_affinity=0), Group(name="a", screen_affinity=1),
     Group(name="s", screen_affinity=1),
     Group(name="d", screen_affinity=1),
 ]
@@ -179,17 +183,24 @@ layouts = [
         # border_focus="#ffffff",
         border_on_single=True,
         border_focus_stack=["#d75f5f", "#8f3d3d"],
-        border_width=3,
+        border_width=0,
         margin=5
     ),
     layout.Max(
         border_focus="#3489eb",
-        border_width=3,
+        border_width=0,
         margin=5
     ),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
+    # layout.Spiral(
+    #     margin=5,
+    #     border_width=0,
+    # )
+    # layout.Bsp(
+    #     border_width=0,
+    #     margin=5,
+    # ),
     # layout.Matrix(),
     # layout.MonadTall(),
     # layout.MonadWide(),
@@ -197,7 +208,11 @@ layouts = [
     # layout.Tile(),
     # layout.TreeTab(),
     # layout.VerticalTile(),
-    # layout.Zoomy(),
+    # layout.Zoomy(
+    #     columnwidth=800,
+    #     border_width=0,
+    #     margin=5
+    # ),
 ]
 
 widget_defaults = dict(
@@ -231,8 +246,9 @@ bring_front_click = True
 floats_kept_above = True
 cursor_warp = True
 floating_layout = layout.Floating(
-    border_focus="#3489eb",
-    border_width=3,
+    border_focus="#000000",
+    border_normal="#000000",
+    border_width=0,
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
@@ -242,6 +258,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="zoom.real "),
     ]
 )
 auto_fullscreen = True

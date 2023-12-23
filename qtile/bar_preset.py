@@ -42,6 +42,15 @@ def LogOffButton(**config):
           mouse_callbacks={ "Button1": lazy.function(onclick) }
     )
 
+def parse_text_task_list(s):
+    return ""
+    max_len = 10
+    if len(s) <= max_len + 3:
+        return f"|{s}|"
+    s = s[0:max_len].strip()
+    return f"|{s}...|"
+
+
 left_bar = bar.Bar(
     [
         widget.CurrentLayout(
@@ -51,30 +60,42 @@ left_bar = bar.Bar(
         widget.GroupBox(
             active=nord_fox['magenta'],
             inactive=nord_fox['black'],
-            block_highlight_text_color=nord_fox['fg_gutter'],
-            highlight_color=nord_fox['bg'],
+            block_highlight_text_color=nord_fox['black'],
+            this_current_screen_border=nord_fox['black'],
+            highlight_color=nord_fox['dark_red'],
             background=nord_fox['red'],
-            borderwidth=0,
+            borderwidth=5,
             highlight_method='line',
-            padding=10,
+            padding=5,
             visible_groups=['1', '2', '3', '4', '5'],
             disable_drag=True,
-            **powerline_arrow_left
-        ),
-        widget.Prompt(
-            background=nord_fox['fg_gutter'],
             **powerline_arrow_left
         ),
         widget.TaskList(
             border=nord_fox['bg'],
             borderwidth=0,
             highlight_method="block",
-            background=nord_fox['fg_gutter'],
+            background=nord_fox['bg'],
             urgent_border=nord_fox['cyan'],
-            max_title_width=100,
+            theme_mode = "preferred",
+            theme_path = "/usr/share/icons/Papirus-Dark",
+            # max_title_width=100,
+            parse_text=parse_text_task_list,
             **powerline_arrow_right,
         ),
-
+        widget.Spacer(
+            background=nord_fox["bg"], 
+            **powerline_arrow_right,
+        ),
+        widget.GlobalMenu(
+            background=nord_fox['bg'],
+            padding=5,
+            **powerline_arrow_right,
+        ),
+        widget.Spacer(
+            background=nord_fox["bg"], 
+            **powerline_arrow_right,
+        ),
         widget.TextBox(
             "", 
             background=nord_fox['orange'], 
@@ -84,40 +105,47 @@ left_bar = bar.Bar(
             background=nord_fox['orange'],
             **powerline_arrow_right,
         ),
-        widget.WidgetBox(
-            background=nord_fox['blue'],
-            close_button_location='right',
-            text_closed="",
-            text_open="",
+        widget.DF(
+            background=nord_fox["blue"],
+            format="[{p}] {uf}{m}/{s}{m} {r:.0f}%",
+            visible_on_warn=False,
             **powerline_arrow_right,
-            widgets=[
-                widget.Net(
-                    background=nord_fox['green'],
-                    format=' {down:.0f}{down_suffix} | {up:.0f}{up_suffix} ',
-                    **powerline_arrow_right,
-                ),
-                widget.TextBox(
-                    fmt="󰘚", 
-                    fontsize=18, 
-                    background=nord_fox['cyan'],
-                ),
-                widget.CPU(
-                    background=nord_fox['cyan'],
-                    format='{load_percent}%  ',
-                    **powerline_arrow_right,
-                ),
-                widget.TextBox(
-                    fmt="", 
-                    fontsize=18, 
-                    background=nord_fox['blue'],
-                ),
-                widget.Memory(
-                    background=nord_fox['blue'],
-                    measure_mem='G',
-                    format='{MemPercent:.2f}%  '
-                ),
-            ]
         ),
+        widget.Net(
+            background=nord_fox['green'],
+            format=' {down:.0f}{down_suffix} | {up:.0f}{up_suffix} ',
+            **powerline_arrow_right,
+        ),
+        widget.TextBox(
+            fmt="󰘚", 
+            fontsize=18, 
+            background=nord_fox['cyan'],
+        ),
+        widget.CPU(
+            background=nord_fox['cyan'],
+            format='{load_percent}%  ',
+            **powerline_arrow_right,
+        ),
+        widget.TextBox(
+            fmt="", 
+            fontsize=18, 
+            background=nord_fox['blue'],
+        ),
+        widget.Memory(
+            background=nord_fox['blue'],
+            measure_mem='G',
+            format='{MemPercent:.2f}%  ',
+            **powerline_arrow_right,
+        ),
+        # widget.WidgetBox(
+        #     background=nord_fox['blue'],
+        #     close_button_location='right',
+        #     text_closed="",
+        #     text_open="",
+        #     **powerline_arrow_right,
+        #     widgets=[
+        #     ]
+        # ),
         widget.Systray(
             background=nord_fox['pink'],
             **powerline_arrow_right,
@@ -158,11 +186,12 @@ right_bar = bar.Bar(
             active=nord_fox['magenta'],
             inactive=nord_fox['black'],
             block_highlight_text_color=nord_fox['fg_gutter'],
-            highlight_color=nord_fox['bg'],
+            this_current_screen_border=nord_fox['black'],
+            highlight_color=nord_fox['dark_red'],
             background=nord_fox['red'],
-            borderwidth=0,
+            borderwidth=5,
             highlight_method='line',
-            padding=13,
+            padding=5,
             visible_groups=['a', 's', 'd'],
             disable_drag=True,
             **powerline_arrow_left
@@ -171,16 +200,28 @@ right_bar = bar.Bar(
             background=nord_fox['fg_gutter'],
             **powerline_arrow_left
         ),
-        widget.GlobalMenu(
-            background=nord_fox['fg_gutter'],
-        ),
         widget.TaskList(
             border=nord_fox['bg'],
             borderwidth=0,
+            theme_mode = "preferred",
+            theme_path = "/usr/share/icons/Papirus-Dark",
             highlight_method="block",
-            background=nord_fox['fg_gutter'],
+            background=nord_fox['bg'],
             urgent_border=nord_fox['cyan'],
+            parse_text=parse_text_task_list,
+        ),
+        widget.Spacer(
+            background=nord_fox["bg"], 
+            **powerline_arrow_right,
+        ),
+        widget.GlobalMenu(
+            background=nord_fox['bg'],
+            padding=5,
             **powerline_arrow_left
+        ),
+        widget.Spacer(
+            background=nord_fox["bg"], 
+            **powerline_arrow_right,
         ),
     ],
     24,

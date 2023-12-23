@@ -28,3 +28,16 @@ alias grub_config="$EDITOR /etc/default/grub"
 
 # For generating grub bootloader configuration
 alias grub_genconfig="grub-mkconfig -o /boot/grub/grub.cfg"
+
+# nvm configuration
+source /usr/share/nvm/init-nvm.sh
+
+# pyenv configurations
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+alias rr=". ranger"
+# Use setcap for setting port access permission to files
+# sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
+neofetch

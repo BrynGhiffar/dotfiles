@@ -12,7 +12,9 @@ configuration {
 /*	run-command: "{cmd}";*/
 /*	run-list-command: "";*/
 /*	run-shell-command: "{terminal} -e {cmd}";*/
-/*	window-command: "wmctrl -i -R {window}";*/
+	// window-command: "wmctrl -i -R {window}";
+	// window-command: "/home/bryn/arch-config/rofi/scripts/set_window.py --wid {window}";
+	window-command: "notify-send 'Rofi' '{window}'";
 /*	window-match-fields: "all";*/
 /*	icon-theme: ;*/
 /*	drun-match-fields: "name,generic,exec,categories,keywords";*/
@@ -56,14 +58,15 @@ configuration {
 /*	refilter-timeout-limit: 8192;*/
 /*	xserver-i300-workaround: false;*/
 /*	pid: "/run/user/1000/rofi.pid";*/
-/*	display-window: ;*/
-/*	display-windowcd: ;*/
-/*	display-run: ;*/
-/*	display-ssh: ;*/
-/*	display-drun: ;*/
-/*	display-combi: ;*/
-/*	display-keys: ;*/
-/*	display-filebrowser: ;*/
+	display-dmenu: "";
+	display-window: "";
+	display-windowcd: "";
+	display-run: "";
+	display-ssh: "";
+	display-drun: "";
+	display-combi: "";
+	display-keys: "";
+	display-filebrowser: "";
 /*	kb-primary-paste: "Control+V,Shift+Insert";*/
 /*	kb-secondary-paste: "Control+v,Insert";*/
 /*	kb-clear-line: "Control+w";*/
@@ -150,4 +153,10 @@ configuration {
   }
 }
 
-@theme "nord-oneline"
+// @theme "nord-oneline"
+// @theme "material"
+// @theme "rounded-green-dark"
+// @theme "spotlight-dark"
+// @theme "squared-material-red"
+// @theme "windows11-list-dark"
+@theme "nord"

@@ -6,8 +6,9 @@
  *******************************************************************************/
 
 * {
-    font:   "IBM Plex Mono 12";
+    font:   "FiraCode Nerd Font Mono 12";
 
+    nordnvim: #1e2220;
     nord0:     #2e3440;
     nord1:     #3b4252;
     nord2:     #434c5e;
@@ -30,7 +31,7 @@
 
     background-color:   transparent;
     text-color:         @nord4;
-    accent-color:       @nord8;
+    accent-color:       @nord9;
 
     margin:     0px;
     padding:    0px;
@@ -38,12 +39,12 @@
 }
 
 window {
-    background-color:   @nord0;
+    background-color:   @nordnvim;
     border-color:       @accent-color;
 
     location:   center;
     width:      480px;
-    border:     1px;
+    border:     2px;
 }
 
 inputbar {
