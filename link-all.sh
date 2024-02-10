@@ -56,3 +56,8 @@ if [ -d ~/.config/dunst ]; then
   rm -r ~/.config/dunst
 fi
 ln -s $conf_loc/dunst ~/.config
+
+if [ -d ~/.config/wlogout ]; then
+  rm -r ~/.config/wlogout
+fi
+ln -s $conf_loc/wlogout ~/.config

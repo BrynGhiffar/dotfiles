@@ -7,7 +7,7 @@
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces", "wlr/taskbar", "hyprland/mode", "sway/scratchpad", "custom/media"],
     // "modules-center": ["hyprland/window"],
-    "modules-right": ["mpd", "pulseaudio", "network", "disk", "cpu", "memory", "clock", "tray"],
+    "modules-right": ["mpd", "pulseaudio/slider", "network", "disk", "cpu", "memory", "clock", "tray"],
     // Modules configuration
     "wlr/taskbar": {
       "icon-size": 15,
@@ -150,6 +150,11 @@
         // "format-disconnected": "Disconnected ⚠",
         // "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "interval": 5
+    },
+    "pulseaudio/slider": {
+      "min": 0,
+      "max": 100,
+      "orientation": "horizontal"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
