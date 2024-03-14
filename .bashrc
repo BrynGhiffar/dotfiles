@@ -38,6 +38,45 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 alias rr=". ranger"
+PATH=$PATH:~/.local/scripts
+alias cp_last_obs='cp ~/obs_recordings/$(ls ~/obs_recordings -t | head -n 1)'
+
+ffmgif() {
+  local input output
+  
+  while [[ ${1} ]]; do
+    case "${1}" in
+      -i)
+        input=${2}
+        shift
+        ;;
+      -o)
+        output=${2}
+        shift
+        ;;
+      *)
+        echo "Error: Unknown parameter: ${1}" >&2
+        return 1
+    esac
+
+    if ! shift; then
+      echo "Missing parameter argument." >&2
+      return 1
+    fi
+  done
+  
+  if [[ -z "$input" ]]; then
+    echo "Error: input file is not specified" >&2
+    return 1
+  fi
+
+  if [[ -z "$output" ]]; then
+    echo "Error: output file is not specified" >&2
+    return 1
+  fi
+
+  ffmpeg -i "$input" -r 15 -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" "$output"
+}
 # Use setcap for setting port access permission to files
 # sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
 neofetch

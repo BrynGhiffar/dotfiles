@@ -1,12 +1,10 @@
-from libqtile import bar, layout, widget, hook, qtile
+from libqtile import layout, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
-from libqtile.log_utils import logger
-from libqtile.core.manager import Qtile
 from bar_preset import left_bar, right_bar
 import traverse
-import subprocess
+from backlight import backlight
+from keys import keys as _keys
 
 mod = "mod4"
 # terminal = guess_terminal()
@@ -15,29 +13,7 @@ terminal = "kitty"
 ROFI_GET_WINDOWS = "/home/bryn/arch-config/rofi/scripts/get_windows.py"
 ROFI_SET_WINDOW = "/home/bryn/arch-config/rofi/scripts/set_window.py"
 
-def backlight(action):
-    def f(qtile):
-        index = 5
-        brightness = int(subprocess.run(['xbacklight', '-get'],
-                                        stdout=subprocess.PIPE).stdout)
-        if action == "inc":
-            res = subprocess.run(['sudo', 'xbacklight', '-inc', f"{index}"], 
-                                 stdout=subprocess.PIPE, 
-                                 stderr=subprocess.PIPE
-            )
-        else:
-            if brightness - index <= 0:
-                return
-            res = subprocess.run(['sudo', 'xbacklight', '-dec', f"{index}"], 
-                                 stdout=subprocess.PIPE, 
-                                 stderr=subprocess.PIPE
-            )
-    return f
-
 keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
     Key([mod], "h", lazy.function(traverse.left), desc="Move focus to left"),
     Key([mod], "l", lazy.function(traverse.right), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -50,6 +26,7 @@ keys = [
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
+    Key([mod, "shift"], "c", lazy.spawn("xcolor | xclip -selection clipboard", shell=True)),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
@@ -83,7 +60,8 @@ keys = [
     Key(
         [mod],
         "f",
-        lazy.window.toggle_fullscreen(),
+        lazy.next_layout(),
+        # lazy.window.toggle_fullscreen(),
         desc="Toggle fullscreen on the focused window",
     ),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
@@ -95,7 +73,8 @@ keys = [
 groups = [
     Group(name="1", screen_affinity=0),
     Group(name="2", screen_affinity=0),
-    Group(name="3", screen_affinity=0), Group(name="a", screen_affinity=1),
+    Group(name="3", screen_affinity=0), 
+    Group(name="a", screen_affinity=1),
     Group(name="s", screen_affinity=1),
     Group(name="d", screen_affinity=1),
 ]
@@ -103,7 +82,6 @@ groups = [
 @hook.subscribe.focus_change
 def focus_changed():
     qtile.current_window.bring_to_front()
-    # name = qtile.current_window.name
     # logger.warning(f"Focus change {name}")
 
 
@@ -241,7 +219,7 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = False
+follow_mouse_focus = True
 bring_front_click = True
 floats_kept_above = True
 cursor_warp = True

@@ -87,11 +87,11 @@ left_bar = bar.Bar(
             background=nord_fox["bg"], 
             **powerline_arrow_right,
         ),
-        widget.GlobalMenu(
-            background=nord_fox['bg'],
-            padding=5,
-            **powerline_arrow_right,
-        ),
+        # widget.GlobalMenu(
+        #     background=nord_fox['bg'],
+        #     padding=5,
+        #     **powerline_arrow_right,
+        # ),
         widget.Spacer(
             background=nord_fox["bg"], 
             **powerline_arrow_right,
@@ -158,9 +158,9 @@ left_bar = bar.Bar(
         widget.WidgetBox(
             close_button_location='right',
             padding=10,
-            fontsize=20,
-            text_closed="",
-            text_open="",
+            fontsize=12,
+            text_closed="󰇙",
+            text_open="󰇙",
             background=nord_fox["red"],
             widgets=[
                 LogOffButton(
@@ -221,7 +221,7 @@ right_bar = bar.Bar(
         ),
         widget.Spacer(
             background=nord_fox["bg"], 
-            **powerline_arrow_right,
+            # **powerline_arrow_right,
         ),
     ],
     24,
