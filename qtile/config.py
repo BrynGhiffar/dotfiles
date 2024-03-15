@@ -1,8 +1,16 @@
+
+# ██████╗░░██████╗░██╗░░██╗██╗███████╗███████╗░█████╗░██████╗░  ░██████╗░████████╗██╗██╗░░░░░███████╗
+# ██╔══██╗██╔════╝░██║░░██║██║██╔════╝██╔════╝██╔══██╗██╔══██╗  ██╔═══██╗╚══██╔══╝██║██║░░░░░██╔════╝
+# ██████╦╝██║░░██╗░███████║██║█████╗░░█████╗░░███████║██████╔╝  ██║██╗██║░░░██║░░░██║██║░░░░░█████╗░░
+# ██╔══██╗██║░░╚██╗██╔══██║██║██╔══╝░░██╔══╝░░██╔══██║██╔══██╗  ╚██████╔╝░░░██║░░░██║██║░░░░░██╔══╝░░
+# ██████╦╝╚██████╔╝██║░░██║██║██║░░░░░██║░░░░░██║░░██║██║░░██║  ░╚═██╔═╝░░░░██║░░░██║███████╗███████╗
+# ╚═════╝░░╚═════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░░░░░╚═╝░░╚═╝╚═╝░░╚═╝  ░░░╚═╝░░░░░░╚═╝░░░╚═╝╚══════╝╚══════╝
+
+# Welcome to my Qtile configuration :D
+
 from libqtile import hook, qtile
-from libqtile.config import Screen
+from screen import screens as _screens
 from bar_preset import \
-    left_bar, \
-    right_bar ,\
     widget_defaults as _widget_defaults, \
     extension_defaults as _extension_defaults
 from keys import keys as _keys, mouse as _mouse
@@ -11,15 +19,10 @@ from layouts import \
     layouts as _layouts, \
     floating_layout as _floating_layout
 
-screens = [
-    Screen(
-        top=left_bar
-    ),
-    Screen(
-        top=right_bar
-    ),
-]
+# █▀▀ █▀▀ █▄░█ █▀▀ █▀█ ▄▀█ █░░
+# █▄█ ██▄ █░▀█ ██▄ █▀▄ █▀█ █▄▄
 
+screens = _screens
 keys = _keys
 mouse = _mouse
 groups = _groups
@@ -27,6 +30,10 @@ layouts = _layouts
 floating_layout = _floating_layout
 widget_defaults = _widget_defaults
 extension_defaults = _extension_defaults
+
+# █▀▄▀█ █ █▀ █▀▀
+# █░▀░█ █ ▄█ █▄▄                                                                                                   
+
 dgroups_key_binder = None
 dgroups_app_rules = [] 
 follow_mouse_focus = True
@@ -39,6 +46,9 @@ reconfigure_screens = True
 auto_minimize = True
 wl_input_rules = None
 wmname = "LG3D"
+
+# █░█ █▀█ █▀█ █▄▀ █▀
+# █▀█ █▄█ █▄█ █░█ ▄█
 
 @hook.subscribe.focus_change
 def focus_changed():
