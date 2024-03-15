@@ -1,88 +1,240 @@
-from libqtile.config import Key
+from libqtile.config import Key, Drag, Click
 from libqtile.lazy import lazy
 from backlight import backlight
 import traverse
+from groups import groups
+from utils import go_to_group, go_to_group_and_move_window, rofi_window_switcher
 
 mod = "mod4"
 terminal = "kitty"
 rofi_get_window_script = "/home/bryn/arch-config/rofi/scripts/get_windows.py"
 rofi_set_window_script = "/home/bryn/arch-config/rofi/scripts/set_window.py"
-rofi_win_switcher_cmd = f"{rofi_get_window_script} \"$({rofi_set_window_script} | rofi -dmenu -i -p \"\")\""
+rofi_win_switcher_cmd = f"{rofi_set_window_script} \"$({rofi_get_window_script} | rofi -dmenu -i -p \"\")\""
 screenshot_cmd = "maim --select | xclip -selection clipboard -t image/png"
+color_selection_cmd = "xcolor | xclip -selection clipboard"
 
-keys = [
-    Key([mod], "h", lazy.function(traverse.left), desc="Move focus to left"),
-    Key([mod], "l", lazy.function(traverse.right), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    # Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    Key([mod], "space", lazy.spawn("rofi -show run"), desc="spawn rofi"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    Key([mod, "shift"], "c", lazy.spawn("xcolor | xclip -selection clipboard", shell=True)),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
+MOD_CTRL = [ mod, "control" ]
+MOD_SHIFT = [ mod, "shift" ]
+MOD = [ mod ]
+FN_KEY_BRIGHTNESS_UP = "XF86MonBrightnessUp"
+FN_KEY_BRIGHTNESS_DOWN = "XF86MonBrightnessDown"
+FN_KEY_MUTE_VOLUME = "XF86AudioMute"
+FN_KEY_RAISE_VOLUME = "XF86AudioRaiseVolume"
+FN_KEY_LOWER_VOLUME = "XF86AudioLowerVolume"
+KEY_ENTER_RETURN = "Return"
+KEY_TAB = "Tab"
+MOUSE_LEFT_CLICK = "Button1"
+MOUSE_RIGHT_CLICK = "Button2"
+MOUSE_MIDDLE_CLICK = "Button3"
+
+window_navigation_keys = [
     Key(
-        [mod, "control"], "j", 
+        MOD, "h", 
+        lazy.function(traverse.left),
+        desc="Move focus to left"
+    ),
+    Key(
+        MOD, "l", 
+        lazy.function(traverse.right), 
+        desc="Move focus to right"
+    ),
+    Key(
+        MOD, "j", 
+        lazy.layout.down(),
+        desc="Move focus down"
+    ),
+    Key(
+        MOD, "k", 
+        lazy.layout.up(), 
+        desc="Move focus up"
+    ),
+]
+
+window_shuffle_keys = [
+    Key(
+        MOD_SHIFT, "h", 
+        lazy.layout.shuffle_left(),
+        desc="Move window to the left"
+    ),
+    Key(
+        MOD_SHIFT, "l", 
+        lazy.layout.shuffle_right(), 
+        desc="Move window to the right"
+    ),
+    Key(
+        MOD_SHIFT, "j", 
+        lazy.layout.shuffle_down(), 
+        desc="Move window down"
+    ),
+    Key(
+        MOD_SHIFT, "k", 
+        lazy.layout.shuffle_up(),
+        desc="Move window up"
+    ),
+]
+
+window_grow_keys = [
+    Key(
+        MOD_CTRL, "h", 
+        lazy.layout.grow_left(), 
+        desc="Grow window to the left"
+    ),
+    Key(
+        MOD_CTRL, "l", 
+        lazy.layout.grow_right(),
+        desc="Grow window to the right"
+    ),
+    Key(
+        MOD_CTRL, "j", 
         lazy.layout.grow_down(), 
         desc="Grow window down"
     ),
     Key(
-        [mod, "control"], "k", 
+        MOD_CTRL, "k", 
         lazy.layout.grow_up(), 
         desc="Grow window up"
     ),
     Key(
-        [mod], "n", 
+        MOD, "n", 
         lazy.layout.normalize(), 
         desc="Reset all window sizes"
     ),
+]
+
+function_keys = [
     Key(
-        [mod, "control"], "s", 
+        [], FN_KEY_BRIGHTNESS_UP, 
+        lazy.function(backlight('inc'))
+    ),
+    Key(
+        [], FN_KEY_BRIGHTNESS_DOWN,
+        lazy.function(backlight('dec'))
+    ),
+    Key(
+        [], FN_KEY_MUTE_VOLUME, 
+        lazy.spawn('ponymix toggle')
+    ),
+    Key(
+        [], FN_KEY_RAISE_VOLUME,
+        lazy.spawn('ponymix increase 5')
+    ),
+    Key(
+        [], FN_KEY_LOWER_VOLUME, 
+        lazy.spawn('ponymix decrease 5')
+    ),
+]
+
+rofi_keys = [
+    Key(
+        MOD, "space", 
+        lazy.spawn("rofi -show run"),
+        desc="spawn rofi"
+    ),
+    Key(
+        MOD, "r", 
+        lazy.function(rofi_window_switcher),
+        desc="spawn rofi window switcher"
+    ),
+]
+
+app_shortcut_keys = [
+    Key(
+        MOD, KEY_ENTER_RETURN, 
+        lazy.spawn(terminal), 
+        desc="Launch terminal"
+    ),
+]
+
+qtile_keys = [
+    Key(
+        MOD_CTRL, "r", 
+        lazy.reload_config(),
+        desc="Reload the config"
+    ),
+    Key(
+        MOD_CTRL, "q", 
+        lazy.shutdown(), 
+        desc="Shutdown Qtile"
+    ),
+]
+
+window_layout_keys = [
+    Key(
+        MOD, "f",
+        lazy.next_layout(),
+        desc="Toggle fullscreen on the focused window",
+    ),
+    Key(
+        MOD_SHIFT, "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen on the focused window",
+    ),
+    Key(
+        MOD, "t", 
+        lazy.window.toggle_floating(), 
+        desc="Toggle floating on the focused window"
+    ),
+    Key(
+        MOD, KEY_TAB, 
+        lazy.next_layout(),
+        desc="Toggle between layouts"
+    ),
+]
+
+group_navigation_keys = list(map(lambda group: Key(
+    MOD, group.name,
+    # lazy.group[i.name].toscreen(),
+    lazy.function(go_to_group(group.name)),
+    desc="Switch to group {}".format(group.name),
+), groups))
+
+move_window_to_group_keys = list(map(lambda group: Key(
+    MOD_SHIFT, group.name,
+    # lazy.window.togroup(i.name, switch_group=False),
+    lazy.function(go_to_group_and_move_window(group.name)),
+    desc="Switch to & move focused window to group {}".format(group.name),
+), groups))
+
+keys = [
+    *window_navigation_keys,
+    *window_shuffle_keys,
+    *window_grow_keys,
+    *rofi_keys,
+    *app_shortcut_keys,
+    *function_keys,
+    *qtile_keys,
+    *window_layout_keys,
+    *group_navigation_keys,
+    *move_window_to_group_keys,
+    Key(
+        MOD_SHIFT, "c", 
+        lazy.spawn(color_selection_cmd, shell=True)
+    ),
+    Key(
+        MOD_CTRL, "s", 
         lazy.spawn(screenshot_cmd, shell=True),
         desc="Screenshot selection"
     ),
     Key(
-        [mod], "r", 
-        lazy.spawn(rofi_win_switcher_cmd, shell=True),
-        desc="spawn rofi window switcher"
+        MOD, "w", 
+        lazy.window.kill(), 
+        desc="Kill focused window"
     ),
-    # Key([mod], "r", lazy.spawn(f"wmctrl -i -a \"$({ROFI_GET_WINDOWS} | rofi -dmenu -i -p \"\" | cut -d '|' -f 4)\"", shell=True)),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([], 'XF86MonBrightnessUp',   lazy.function(backlight('inc'))),
-    Key([], 'XF86MonBrightnessDown', lazy.function(backlight('dec'))),
+]
 
-    Key([], 'XF86AudioMute', lazy.spawn('ponymix toggle')),
-    Key([], 'XF86AudioRaiseVolume', lazy.spawn('ponymix increase 5')),
-    Key([], 'XF86AudioLowerVolume', lazy.spawn('ponymix decrease 5')),
-    Key(
-        [mod],
-        "m",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
+mouse = [
+    Drag(
+        MOD, MOUSE_LEFT_CLICK, 
+        lazy.window.set_position_floating(), 
+        start=lazy.window.get_position()
     ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key(
-        [mod],
-        "f",
-        lazy.next_layout(),
-        # lazy.window.toggle_fullscreen(),
-        desc="Toggle fullscreen on the focused window",
+    Drag(
+        MOD, MOUSE_MIDDLE_CLICK, 
+        lazy.window.set_size_floating(), 
+        start=lazy.window.get_size()
     ),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Click(
+        MOD, MOUSE_RIGHT_CLICK, 
+        lazy.window.bring_to_front()
+    ),
 ]

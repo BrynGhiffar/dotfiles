@@ -6,19 +6,23 @@ from unicodes import left_arrow,right_arrow
 from colors import nord_fox
 from libqtile.lazy import lazy
 
-powerline_arrow_right = {
-    "decorations": [
-        PowerLineDecoration(path="arrow_right")
-    ]
-}
+FIRA_CODE_NERD_FONT_MONO = "FiraCode Nerd Font Mono"
 
-powerline_arrow_left = {
-        "decorations": [
-                PowerLineDecoration(path="arrow_left")
-            ]
-        }
+widget_defaults = dict(
+    font=FIRA_CODE_NERD_FONT_MONO,
+    fontsize=10,
+    padding=3,
+)
+extension_defaults = widget_defaults.copy()
 
-def ShutdownButton(**config):
+powerline_arrow_right = dict(
+    decorations=[ PowerLineDecoration(path="arrow_right") ]
+)
+powerline_arrow_left = dict(
+    decorations=[ PowerLineDecoration(path="arrow_left") ]
+)
+
+def shutdown_button(**config):
     def onclick(qtile):
         qtile.spawn('shutdown now', shell=True)
 
@@ -30,7 +34,7 @@ def ShutdownButton(**config):
           mouse_callbacks={ "Button1": lazy.function(onclick) }
     )
 
-def LogOffButton(**config):
+def logoff_button(**config):
     def onclick(qtile):
         qtile.cmd_spawn('reboot')
 
@@ -116,25 +120,25 @@ left_bar = bar.Bar(
             format=' {down:.0f}{down_suffix} | {up:.0f}{up_suffix} ',
             **powerline_arrow_right,
         ),
-        widget.TextBox(
-            fmt="󰘚", 
-            fontsize=18, 
-            background=nord_fox['cyan'],
-        ),
+        # widget.TextBox(
+        #     fmt="󰘚", 
+        #     fontsize=18, 
+        #     background=nord_fox['cyan'],
+        # ),
         widget.CPU(
             background=nord_fox['cyan'],
-            format='{load_percent}%  ',
+            format='CPU {load_percent}%  ',
             **powerline_arrow_right,
         ),
-        widget.TextBox(
-            fmt="", 
-            fontsize=18, 
-            background=nord_fox['blue'],
-        ),
+        # widget.TextBox(
+        #     fmt="", 
+        #     fontsize=18, 
+        #     background=nord_fox['blue'],
+        # ),
         widget.Memory(
             background=nord_fox['blue'],
             measure_mem='G',
-            format='{MemPercent:.2f}%  ',
+            format='RAM {MemPercent:.2f}%  ',
             **powerline_arrow_right,
         ),
         # widget.WidgetBox(
@@ -163,10 +167,10 @@ left_bar = bar.Bar(
             text_open="󰇙",
             background=nord_fox["red"],
             widgets=[
-                LogOffButton(
+                logoff_button(
                     background=nord_fox["red"]
                 ),
-                ShutdownButton(
+                shutdown_button(
                     background=nord_fox["red"]
                 ),
             ]
