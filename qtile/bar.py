@@ -269,7 +269,6 @@ right_bar = bar.Bar(
         ),
         widget.Spacer(
             background=BG, 
-            **pl_arrow(RIGHT),
         ),
     ],
     24,
