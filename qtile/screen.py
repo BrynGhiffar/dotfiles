@@ -1,5 +1,5 @@
 from libqtile.config import Screen
-from bar_preset import left_bar, right_bar
+from bar import left_bar, right_bar
 
 screens = [
     Screen(

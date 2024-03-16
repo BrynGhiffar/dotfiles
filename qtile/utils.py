@@ -1,6 +1,7 @@
 import subprocess
 from libqtile.log_utils import logger
 from libqtile import layout
+from libqtile.core.manager import Qtile
 
 def go_to_group(name: str):
     def _inner(qtile):
@@ -65,14 +66,14 @@ def index_number_from_choice(choice: str):
         return None
     return number - 1
 
-def find_window_with_wid(qtile, wid):
+def find_window_with_wid(qtile: Qtile, wid: str):
     windows = [w for g in qtile.groups for w in g.windows]
     for _win in windows:
         if _win.info()["id"] == wid:
             return _win
     return None
 
-def focus_to_window(qtile, window):
+def focus_to_window(qtile: Qtile, window):
     wid = window["wid"]
     group = window["group"]
     win = find_window_with_wid(qtile, wid)
@@ -92,7 +93,7 @@ def focus_to_window(qtile, window):
     # if is_max:
     #     win.group.setlayout("max")
 
-def rofi_window_switcher(qtile):
+def rofi_window_switcher(qtile: Qtile):
     window_order = { "1": 1, "2": 2, "3": 3, "a": 4, "s": 5, "d": 6 }
     windows = [dict(
         wid=w["id"],

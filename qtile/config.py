@@ -10,7 +10,7 @@
 
 from libqtile import hook, qtile
 from screen import screens as _screens
-from bar_preset import \
+from bar import \
     widget_defaults as _widget_defaults, \
     extension_defaults as _extension_defaults
 from keys import keys as _keys, mouse as _mouse
