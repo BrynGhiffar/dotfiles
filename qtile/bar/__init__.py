@@ -8,9 +8,8 @@ from bar.widgets import \
     get_cpu_widget, \
     get_memory_widget, \
     get_clock_widget, \
+    get_power_widget, \
     pl_arrow, \
-    logoff_button, \
-    shutdown_button, \
     LEFT, \
     RIGHT
 
@@ -39,7 +38,7 @@ GRAY7 = "#919197"
 GRAY8 = "#45454a"
 
 volume_widget = get_volume_widget(
-    background=GRAY1
+    background=GRAY1,
 )
 
 disk_storage_widget = get_disk_storage_widget(
@@ -62,6 +61,10 @@ clock_widget = get_clock_widget(
     background=GRAY6,
 )
 
+power_widget = get_power_widget(
+    background=GRAY7
+)
+
 BAR_HEIGHT = 24
 
 left_bar = bar.Bar(
@@ -75,7 +78,7 @@ left_bar = bar.Bar(
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
-            highlight_color=BG,
+            highlight_color=GRAY1,
             foreground="#ffffff",
             this_screen_border="#ffffff",
             background=BG,
@@ -108,22 +111,7 @@ left_bar = bar.Bar(
         *cpu_widget,
         *memory_widget,
         *clock_widget,
-        widget.WidgetBox(
-            close_button_location='right',
-            padding=10,
-            fontsize=12,
-            text_closed="󰇙",
-            text_open="󰇙",
-            background=GRAY7,
-            widgets=[
-                logoff_button(
-                    background=GRAY7
-                ),
-                shutdown_button(
-                    background=GRAY7
-                ),
-            ]
-        )
+        *power_widget
     ],
     BAR_HEIGHT,
 )
@@ -139,7 +127,7 @@ right_bar = bar.Bar(
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
-            highlight_color=BG,
+            highlight_color=GRAY1,
             foreground="#ffffff",
             this_screen_border="#ffffff",
             background=BG,

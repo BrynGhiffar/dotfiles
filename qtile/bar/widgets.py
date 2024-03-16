@@ -1,4 +1,4 @@
-from libqtile import widget
+from qtile_extras import widget
 from libqtile.lazy import lazy
 from qtile_extras.widget.decorations import PowerLineDecoration
 from typing import Literal
@@ -7,6 +7,10 @@ LEFT = "LEFT"
 LEFT_TYPE = Literal["LEFT"]
 RIGHT = "RIGHT"
 RIGHT_TYPE = Literal["RIGHT"]
+
+powerline_arrow_right = dict(
+    decorations=[ PowerLineDecoration(path="arrow_right") ]
+)
 
 def pl_arrow(direction: LEFT_TYPE | RIGHT_TYPE):
     powerline_arrow_right = dict(
@@ -73,8 +77,8 @@ def get_memory_widget(**config):
         widget.Memory(
             measure_mem='G',
             format='RAM {MemPercent:.2f}%  ',
-            **config,
             **pl_arrow(RIGHT),
+            **config,
         ),
     ]
 
@@ -86,8 +90,8 @@ def get_volume_widget(**config):
             **config,
         ),
         widget.PulseVolume(
-            **pl_arrow(LEFT),
             **config,
+            **pl_arrow(RIGHT),
         ),
     ]
 
@@ -113,12 +117,32 @@ def get_network_widget(**config):
 def get_clock_widget(**config):
     return [
         widget.Systray(
-            **pl_arrow(RIGHT),
             **config,
+            **pl_arrow(RIGHT),
         ),
         widget.Clock(
             format="%a %d/%m/%Y %H:%M  ",
-            **pl_arrow(RIGHT),
             **config,
+            **pl_arrow(RIGHT),
         ),
+    ]
+
+def get_power_widget(**config):
+    return [
+        widget.WidgetBox(
+            close_button_location='right',
+            padding=10,
+            fontsize=12,
+            text_closed="󰇙",
+            text_open="󰇙",
+            **config,
+            widgets=[
+                logoff_button(
+                    **config
+                ),
+                shutdown_button(
+                    **config
+                ),
+            ],
+        )
     ]
