@@ -132,9 +132,9 @@ def get_power_widget(**config):
         widget.WidgetBox(
             close_button_location='right',
             padding=10,
-            fontsize=12,
-            text_closed="󰇙",
-            text_open="󰇙",
+            fontsize=28,
+            text_closed="󰊰",
+            text_open="󰊰",
             **config,
             widgets=[
                 logoff_button(

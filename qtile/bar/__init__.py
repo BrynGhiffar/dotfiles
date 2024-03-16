@@ -1,6 +1,7 @@
 from qtile_extras import widget
 from libqtile import bar
 from colors import nord_fox
+import colorsys
 from bar.widgets import \
     get_volume_widget, \
     get_disk_storage_widget, \
@@ -27,14 +28,34 @@ extension_defaults = widget_defaults.copy()
 def parse_text_task_list(s):
     return ""
 
+def hex_to_tup(hex: str):
+    hex = hex.lstrip("#")
+    r, g, b = (round(int(hex[i:i+2], 16) / 255, 3) for i in (0, 2, 4))
+    return (r, g, b)
+
+def tup_to_hex(tup: tuple[int, int, int]):
+    nums = "".join((hex(round(i * 255)).replace("0x", "").rjust(2, "0") for i in tup))
+    return f"#{nums}"
+
+def lighten(hex_color: str, inc: int):
+    hinc = 0.0 * inc
+    vinc = 0.03 * inc
+    r, g, b = hex_to_tup(hex_color)
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    h = (h + hinc) % 1
+    v = min(v + vinc, 1.0)
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    return tup_to_hex((r, g, b))
+
 BG = "#202022"
-GRAY1 = "#313135"
-GRAY2 = "#404044"
-GRAY3 = "#525257"
-GRAY4 = "#606066"
-GRAY5 = "#727279"
-GRAY6 = "#818188"
-GRAY7 = "#919197"
+
+GRAY1 = lighten(BG, 1)
+GRAY2 = lighten(BG, 2)
+GRAY3 = lighten(BG, 3)
+GRAY4 = lighten(BG, 4)
+GRAY5 = lighten(BG, 5)
+GRAY6 = lighten(BG, 6)
+GRAY7 = lighten(BG, 7)
 GRAY8 = "#45454a"
 
 volume_widget = get_volume_widget(
