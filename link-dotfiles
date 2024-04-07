@@ -20,7 +20,7 @@ ln -s $conf_loc/kitty ~/.config
 if [ -f ~/.config/picom.conf ]; then
   rm ~/.config/picom.conf
 fi
-ln -s $conf_loc/picom.conf  ~/.config
+ln -s $conf_loc/picom/picom.conf  ~/.config
 
 if [ -d ~/.config/nvim ]; then
   rm -r ~/.config/nvim
@@ -61,3 +61,25 @@ if [ -d ~/.config/wlogout ]; then
   rm -r ~/.config/wlogout
 fi
 ln -s $conf_loc/wlogout ~/.config
+
+# Scripts must be symlinked before .bashrc, since .bashrc
+# sources files for ~/.local/scripts directory
+if [ -d ~/.local/scripts ]; then
+  rm -r ~/.local/scripts
+fi
+ln -s $conf_loc/scripts ~/.local
+
+if [ -e ~/.bashrc ]; then
+  rm ~/.bashrc
+fi
+ln -s $conf_loc/bash/.bashrc ~
+
+if [ -e ~/.bash_profile ]; then
+  rm ~/.bash_profile
+fi
+ln -s $conf_loc/bash/.bash_profile ~
+
+if [ -e ~/.xinitrc ]; then
+  rm ~/.xinitrc
+fi
+ln -s $conf_loc/xorg/.xinitrc ~
