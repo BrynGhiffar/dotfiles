@@ -3,7 +3,11 @@ from libqtile.lazy import lazy
 from backlight import backlight
 import traverse
 from groups import groups
-from utils import go_to_group, go_to_group_and_move_window, rofi_window_switcher
+from utils import \
+    go_to_group, \
+    go_to_group_and_move_window, \
+    rofi_window_switcher, \
+    start_wgpu_wallpaper
 
 mod = "mod4"
 terminal = "kitty"
@@ -173,8 +177,7 @@ window_layout_keys = [
         MOD, "t", 
         lazy.window.toggle_floating(), 
         desc="Toggle floating on the focused window"
-    ),
-    Key(
+    ), Key(
         MOD, KEY_TAB, 
         lazy.next_layout(),
         desc="Toggle between layouts"
@@ -220,6 +223,12 @@ keys = [
         lazy.window.kill(), 
         desc="Kill focused window"
     ),
+    # Key(
+    #     MOD, "B",
+    #     # lazy.function(start_wgpu_wallpaper),
+    #     lazy.spawn("cpulimit -l 5 wgpu-wallpaper"),
+    #     desc="Start wgpu wallpaper"
+    # )
 ]
 
 mouse = [

@@ -2,6 +2,7 @@ import subprocess
 from libqtile.log_utils import logger
 from libqtile import layout
 from libqtile.core.manager import Qtile
+from libqtile.lazy import lazy
 
 def go_to_group(name: str):
     def _inner(qtile):
@@ -100,7 +101,7 @@ def rofi_window_switcher(qtile: Qtile):
         name=w["name"],
         group=w["group"],
         clss=get_class(w),
-    ) for w in qtile.windows()]
+    ) for w in qtile.windows() if w["group"] in window_order]
     windows.sort(key=lambda w: window_order[w["group"]])
     def render(i, w):
         name_max_len = 5
@@ -114,10 +115,11 @@ def rofi_window_switcher(qtile: Qtile):
         return f":{group}: {clss} | {name}{hidden}"
     items = windows
     strs = "\n".join([render(i, w) for i, w in enumerate(items)])
+    strs = strs.replace("'", "")
     template = f"echo -e '{strs}'"
 
     res = subprocess.run(
-        [ f"{template} | rofi -dmenu -i -p ''" ],
+        [ f"{template} | rofi -dmenu -i -p 'windows'" ],
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
@@ -128,3 +130,8 @@ def rofi_window_switcher(qtile: Qtile):
         return
     window = windows[index]
     focus_to_window(qtile, window)
+
+def start_wgpu_wallpaper(qtile: Qtile):
+    spawn = lazy.spawn("wgpu-application")
+    spawn()
+    pass

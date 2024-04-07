@@ -9,6 +9,7 @@
 # Welcome to my Qtile configuration :D
 
 from libqtile import hook, qtile
+from libqtile.log_utils import logger
 from screen import screens as _screens
 from bar import \
     widget_defaults as _widget_defaults, \
@@ -18,6 +19,8 @@ from groups import groups as _groups
 from layouts import \
     layouts as _layouts, \
     floating_layout as _floating_layout
+
+import subprocess
 
 # █▀▀ █▀▀ █▄░█ █▀▀ █▀█ ▄▀█ █░░
 # █▄█ ██▄ █░▀█ ██▄ █▀▄ █▀█ █▄▄
@@ -52,4 +55,28 @@ wmname = "LG3D"
 
 @hook.subscribe.focus_change
 def focus_changed():
-    qtile.current_window.bring_to_front()
+    # qtile.current_window.bring_to_front()
+    pass
+
+def get_wm_class(window):
+    wm_classes = window.info()["wm_class"]
+    if len(wm_classes) == 1:
+        return wm_classes[0]
+    return wm_classes[1]
+
+@hook.subscribe.client_new
+def new_client(window):
+    qtile.warning()
+    wm_class = get_wm_class(window)
+    if wm_class != "wgpu-wallpaper":
+        return
+    logger.warning("WGPU wallpaper started")
+    window.static(screen=0, x=0, y=0, width=1920, height=1080)
+    window.keep_below(True)
+
+@hook.subscribe.startup_once
+def start():
+    # subprocess.run([ "start-wgpu", "&" ])
+    # subprocess.Popen("cpulimit -l 5 wgpu-wallpaper")
+    subprocess.Popen("start-wgpu")
+    pass
