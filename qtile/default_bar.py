@@ -2,6 +2,16 @@ from libqtile import widget, bar
 from unicodes import left_arrow,right_arrow
 from colors import nord_fox
 
+nonames = ["Mozilla Firefox"]
+
+def parse_text(window_name):
+    is_empty = False
+    for name in nonames:
+        if name in window_name:
+            is_empty = True
+            break
+    return window_name if not is_empty else ""
+
 bar = bar.Bar(
     [
         widget.CurrentLayout(
@@ -15,6 +25,7 @@ bar = bar.Bar(
             highlight_color=nord_fox['bg'],
             background=nord_fox['red'],
             borderwidth=0,
+            disable_drag=True,
             highlight_method='line',
             padding=13
         ),
@@ -31,7 +42,12 @@ bar = bar.Bar(
         # ),
         widget.TaskList(
             border=nord_fox['bg'],
+            parse_text=parse_text,
+            icon_size=20,
             borderwidth=0,
+            theme_mode='preferred',
+            theme_path="/usr/share/icons/Papirus-Dark",
+            window_name_location=False,
             highlight_method="block",
             background=nord_fox['fg_gutter'],
             urgent_border=nord_fox['cyan']
@@ -59,13 +75,16 @@ bar = bar.Bar(
             background=nord_fox['green']
         ),
         left_arrow(nord_fox['green'], nord_fox['cyan']),
-        widget.TextBox("Battery", background=nord_fox['cyan']),
+        widget.TextBox("⚡", background=nord_fox['cyan']),
         widget.Battery(
+            charge_char="",
             background=nord_fox['cyan'],
             format='{char} {percent:2.0%} {hour:d}:{min:02d}'
         ),
         left_arrow(nord_fox['cyan'], nord_fox['pink']),
-        widget.Systray(),
+        widget.Systray(
+            background=nord_fox['pink']
+        ),
         widget.Clock(
             format="%Y-%m-%d %a %I:%M %p",
             background=nord_fox['pink']
