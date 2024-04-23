@@ -2,7 +2,10 @@ from qtile_extras import widget
 from libqtile import bar
 from colors import nord_fox
 import colorsys
+from socket import gethostname
 from bar.widgets import \
+    get_backlight_widget, \
+    get_battery_widget, \
     get_volume_widget, \
     get_disk_storage_widget, \
     get_network_widget, \
@@ -63,6 +66,14 @@ volume_widget = get_volume_widget(
     background=GRAY1,
 )
 
+backlight_widget = get_backlight_widget(
+    background=GRAY1
+)
+
+battery_widget = get_battery_widget(
+    background=GRAY1
+)
+
 disk_storage_widget = get_disk_storage_widget(
     background=GRAY2,
 )
@@ -91,7 +102,13 @@ power_widget = get_power_widget(
     background=GRAY7
 )
 
-BAR_HEIGHT = 24
+def get_bar_height():
+    hostname = gethostname()
+    if "laptop" in hostname:
+        return 28
+    return 24
+
+BAR_HEIGHT = get_bar_height()
 
 left_bar = bar.Bar(
     [
@@ -131,6 +148,8 @@ left_bar = bar.Bar(
             background=BG, 
             **pl_arrow(RIGHT),
         ),
+        *backlight_widget,
+        *battery_widget,
         *volume_widget,
         *disk_storage_widget,
         *network_widget,

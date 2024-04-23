@@ -1,6 +1,10 @@
 #!/usr/bin/bash
 
-conf_loc=~/arch-config
+if [[ $(hostname) == *"laptop"* ]]; then
+  conf_loc=~/config
+else
+  conf_loc=~/arch-config
+fi
 
 if [ -d ~/.config/rofi ]; then
   rm -r ~/.config/rofi 

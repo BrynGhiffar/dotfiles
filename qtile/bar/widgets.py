@@ -2,6 +2,7 @@ from qtile_extras import widget
 from libqtile.lazy import lazy
 from qtile_extras.widget.decorations import PowerLineDecoration
 from typing import Literal
+from socket import gethostname
 
 LEFT = "LEFT"
 LEFT_TYPE = Literal["LEFT"]
@@ -151,4 +152,35 @@ def get_power_widget(**config):
                 ),
             ],
         )
+    ]
+
+def get_backlight_widget(**config):
+    hostname = gethostname()
+    if "laptop" not in hostname:
+        return []
+    return [
+        widget.TextBox(
+            text="", 
+            fontsize=30, 
+            **config
+        ),
+        widget.Backlight(
+            backlight_name="intel_backlight",
+            brightness_file="brightness",
+            max_brightness_file="max_brightness",
+            **config
+        ),
+    ]
+
+def get_battery_widget(**config):
+    hostname = gethostname()
+    if "laptop" not in hostname:
+        return []
+    return [
+        widget.TextBox("⚡", **config),
+        widget.Battery(
+            charge_char="",
+            format='{char} {percent:2.0%} {hour:d}:{min:02d}',
+            **config
+        ),
     ]
