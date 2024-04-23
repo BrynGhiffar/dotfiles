@@ -8,6 +8,7 @@ from bar.widgets import \
     get_network_widget, \
     get_cpu_widget, \
     get_memory_widget, \
+    get_systray_widget, \
     get_clock_widget, \
     get_power_widget, \
     pl_arrow, \
@@ -47,15 +48,15 @@ def lighten(hex_color: str, inc: int):
     r, g, b = colorsys.hsv_to_rgb(h, s, v)
     return tup_to_hex((r, g, b))
 
-BG = "#202022"
+BG = "#1d1e32"
 
-GRAY1 = lighten(BG, 1)
-GRAY2 = lighten(BG, 2)
-GRAY3 = lighten(BG, 3)
-GRAY4 = lighten(BG, 4)
-GRAY5 = lighten(BG, 5)
-GRAY6 = lighten(BG, 6)
-GRAY7 = lighten(BG, 7)
+GRAY1 = lighten(BG, 2)
+GRAY2 = lighten(BG, 6)
+GRAY3 = lighten(BG, 10)
+GRAY4 = lighten(BG, 14)
+GRAY5 = lighten(BG, 18)
+GRAY6 = lighten(BG, 22)
+GRAY7 = lighten(BG, 26)
 GRAY8 = "#45454a"
 
 volume_widget = get_volume_widget(
@@ -78,6 +79,10 @@ memory_widget = get_memory_widget(
     background=GRAY5,
 )
 
+systray_widget = get_systray_widget(
+    background=GRAY6,
+)
+
 clock_widget = get_clock_widget(
     background=GRAY6,
 )
@@ -95,7 +100,7 @@ left_bar = bar.Bar(
             **pl_arrow(LEFT)
         ),
         widget.GroupBox(
-            active=nord_fox['magenta'],
+            active="#00ff00",
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
@@ -111,7 +116,7 @@ left_bar = bar.Bar(
             **pl_arrow(LEFT)
         ),
         widget.TaskList(
-            border=nord_fox['bg'],
+            border=GRAY5,
             borderwidth=0,
             highlight_method="block",
             background=BG,
@@ -131,6 +136,7 @@ left_bar = bar.Bar(
         *network_widget,
         *cpu_widget,
         *memory_widget,
+        *systray_widget,
         *clock_widget,
         *power_widget
     ],
@@ -144,7 +150,7 @@ right_bar = bar.Bar(
             **pl_arrow(LEFT)
         ),
         widget.GroupBox(
-            active=nord_fox['magenta'],
+            active="#00ff00",
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
@@ -160,7 +166,7 @@ right_bar = bar.Bar(
             **pl_arrow(LEFT)
         ),
         widget.TaskList(
-            border=nord_fox['bg'],
+            # border=nord_fox['bg'],
             borderwidth=0,
             theme_mode = "preferred",
             theme_path = "/usr/share/icons/Papirus-Dark",
@@ -171,7 +177,15 @@ right_bar = bar.Bar(
         ),
         widget.Spacer(
             background=BG, 
+            **pl_arrow(RIGHT),
         ),
+        *volume_widget,
+        *disk_storage_widget,
+        *network_widget,
+        *cpu_widget,
+        *memory_widget,
+        *clock_widget,
+        *power_widget
     ],
     BAR_HEIGHT,
 )

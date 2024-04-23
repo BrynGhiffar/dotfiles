@@ -14,7 +14,7 @@ powerline_arrow_right = dict(
 
 def pl_arrow(direction: LEFT_TYPE | RIGHT_TYPE):
     powerline_arrow_right = dict(
-        decorations=[ PowerLineDecoration(path="arrow_right") ]
+        decorations=[ PowerLineDecoration(path="forward_slash") ]
     )
     powerline_arrow_left = dict(
         decorations=[ PowerLineDecoration(path="arrow_left") ]
@@ -114,12 +114,16 @@ def get_network_widget(**config):
         ),
     ]
 
-def get_clock_widget(**config):
+def get_systray_widget(**config):
     return [
         widget.Systray(
             **config,
             **pl_arrow(RIGHT),
         ),
+    ]
+
+def get_clock_widget(**config):
+    return [
         widget.Clock(
             format="%a %d/%m/%Y %H:%M  ",
             **config,
@@ -133,8 +137,10 @@ def get_power_widget(**config):
             close_button_location='right',
             padding=10,
             fontsize=28,
-            text_closed="󰊰",
-            text_open="󰊰",
+            # text_closed="󰊰",
+            # text_open="󰊰",
+            text_closed="󰛡",
+            text_open="󱃲",
             **config,
             widgets=[
                 logoff_button(
