@@ -1,0 +1,89 @@
+#!/usr/bin/bash
+
+if [[ $(hostname) == *"laptop"* ]]; then
+  conf_loc=~/config
+else
+  conf_loc=~/arch-config
+fi
+
+if [ -d ~/.config/rofi ]; then
+  rm -r ~/.config/rofi 
+fi
+ln -s $conf_loc/rofi ~/.config
+
+if [ -d ~/.config/wofi ]; then
+  rm -r ~/.config/wofi
+fi
+ln -s $conf_loc/wofi ~/.config
+
+if [ -d ~/.config/kitty ]; then
+  rm -r ~/.config/kitty
+fi
+ln -s $conf_loc/kitty ~/.config
+
+if [ -f ~/.config/picom.conf ]; then
+  rm ~/.config/picom.conf
+fi
+ln -s $conf_loc/picom/picom.conf  ~/.config
+
+if [ -d ~/.config/nvim ]; then
+  rm -r ~/.config/nvim
+fi
+ln -s $conf_loc/nvim ~/.config
+
+if [ -d ~/.config/qtile ]; then
+  rm -r ~/.config/qtile
+fi
+ln -s $conf_loc/qtile ~/.config
+
+if [ -d ~/.config/ranger ]; then
+  rm -r ~/.config/ranger
+fi
+ln -s $conf_loc/ranger ~/.config
+
+if [ -d ~/.config/hypr ]; then
+  rm -r ~/.config/hypr
+fi
+ln -s $conf_loc/hypr ~/.config
+
+if [ -d ~/.config/waybar ]; then
+  rm -r ~/.config/waybar
+fi
+ln -s $conf_loc/waybar ~/.config
+
+if [ -d ~/.config/neofetch ]; then
+  rm -r ~/.config/neofetch
+fi
+ln -s $conf_loc/neofetch ~/.config
+
+if [ -d ~/.config/dunst ]; then
+  rm -r ~/.config/dunst
+fi
+ln -s $conf_loc/dunst ~/.config
+
+if [ -d ~/.config/wlogout ]; then
+  rm -r ~/.config/wlogout
+fi
+ln -s $conf_loc/wlogout ~/.config
+
+# Scripts must be symlinked before .bashrc, since .bashrc
+# sources files for ~/.local/scripts directory
+if [ -d ~/.local/scripts ]; then
+  rm -r ~/.local/scripts
+fi
+ln -s $conf_loc/scripts ~/.local
+
+if [ -e ~/.bashrc ]; then
+  rm ~/.bashrc
+fi
+ln -s $conf_loc/bash/.bashrc ~
+
+if [ -e ~/.bash_profile ]; then
+  rm ~/.bash_profile
+fi
+ln -s $conf_loc/bash/.bash_profile ~
+
+if [ -e ~/.xinitrc ]; then
+  rm ~/.xinitrc
+fi
+ln -s $conf_loc/xorg/.xinitrc ~

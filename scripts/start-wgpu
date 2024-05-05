@@ -1,0 +1,3 @@
+#!/usr/bin/sh
+
+echo "cpulimit -l 15 wgpu-wallpaper &" | /usr/bin/sh

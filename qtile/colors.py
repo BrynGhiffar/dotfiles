@@ -4,6 +4,7 @@ nord_fox = {
     'fg_gutter': "#4b5668",
     'black': "#3b4252",
     'red': "#bf616a",
+    'dark_red': "#ba4e59",
     'green': "#a3be8c",
     'yellow': "#ebcb8b",
     'blue': "#81a1c1",
