@@ -13,6 +13,7 @@ export VISUAL='nvim'
 source /usr/share/nvm/init-nvm.sh
 source ~/.local/scripts/source/ffmgif.sh
 source ~/.local/scripts/source/path.sh
+source ~/.local/scripts/source/git-prompt.sh
 source ~/.local/scripts/source/bash-prompt.sh
 source ~/.local/scripts/source/aliases.sh
 
