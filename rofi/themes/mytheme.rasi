@@ -32,7 +32,9 @@
     background-color:   transparent;
     text-color:         @nord4;
     // accent-color:       @nord9;
-    accent-color: #ffffff;
+    // accent-color: #ffffff;
+    // accent-color: #fbb7ff;
+    accent-color: #9196f9;
 
     margin:     0px;
     padding:    0px;
@@ -40,7 +42,8 @@
 }
 
 window {
-    background-color:   #202022;
+    background-color:   #1d1e32;
+    // background-color:   #202022;
     border-color:       @accent-color;
     // border-radius: 5px;
 
