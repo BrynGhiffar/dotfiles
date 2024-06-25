@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# /usr/bin/pipewire &
-# /usr/bin/pipewire-pulse &
-# /usr/bin/pipewire-media-session &
+/usr/bin/pipewire &
+/usr/bin/pipewire-pulse &
+/usr/bin/pipewire-media-session &
 
 # Starting discord minimized
 # exec --no-startup-id discord --start-minimized
