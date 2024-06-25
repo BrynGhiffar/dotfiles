@@ -6,8 +6,13 @@ RESET="\[$(tput sgr0)\]"
 # GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWDIRTYSTATE=1
 
-GREEN_ARROW="${GREEN}=>${RESET} "
-PS1='󰛡 \u@\h:\w (\t)'
+# GREEN_ARROW="${GREEN}=>${RESET} "
+GREEN_ARROW="${GREEN}${RESET} "
+# PS1='󰛡 \u@\h:\w (\t)'
+# PS1='󰐅 \u@\h:\w (\t)'
+# PS1=' \u@\h:\w (\t)'
+# PS1='󰔶 \u@\h:\w (\t)'
+PS1='\u@\h:\w (\t)'
 PS1+=' $(__git_ps1 "'
 PS1+="${GREEN}[ %s]${RESET}"
 PS1+='")'
