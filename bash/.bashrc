@@ -20,4 +20,19 @@ source ~/.local/scripts/source/aliases.sh
 # Use setcap for setting port access permission to files
 # sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
 eval $(keychain --eval --quiet id_ed25519)
-neofetch
+# neofetch
+. "$HOME/.cargo/env"
+
+if [[ $(hostname) == "archlaptop" ]]; then
+
+  # The next line updates PATH for the Google Cloud SDK.
+  if [ -f '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/path.bash.inc' ]; 
+    then . '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/path.bash.inc';
+  fi
+
+  # The next line enables shell command completion for gcloud.
+  if [ -f '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/completion.bash.inc' ];
+    then . '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/completion.bash.inc';
+  fi
+
+fi
