@@ -18,6 +18,8 @@ from bar.widgets import \
     LEFT, \
     RIGHT
 
+from bar.timer import Timer
+
 # Idea: Dynamically set the color of the bar according to your wallpaper
 
 FIRA_CODE_NERD_FONT_MONO = "FiraCode Nerd Font Mono"
@@ -62,23 +64,23 @@ GRAY6 = lighten(BG, 22)
 GRAY7 = lighten(BG, 26)
 GRAY8 = "#45454a"
 
+network_widget = get_network_widget(
+    background=GRAY1,
+)
+
 volume_widget = get_volume_widget(
     background=GRAY1,
 )
 
 backlight_widget = get_backlight_widget(
-    background=GRAY1
+    background=GRAY2
 )
 
 battery_widget = get_battery_widget(
-    background=GRAY1
+    background=GRAY2
 )
 
 disk_storage_widget = get_disk_storage_widget(
-    background=GRAY2,
-)
-
-network_widget = get_network_widget(
     background=GRAY3,
 )
 
@@ -148,14 +150,15 @@ left_bar = bar.Bar(
             background=BG, 
             **pl_arrow(RIGHT),
         ),
+        *network_widget,
         *backlight_widget,
         *battery_widget,
         *volume_widget,
         *disk_storage_widget,
-        *network_widget,
         *cpu_widget,
         *memory_widget,
         *systray_widget,
+        Timer(background=GRAY6, **pl_arrow(RIGHT)),
         *clock_widget,
         *power_widget
     ],
@@ -198,9 +201,9 @@ right_bar = bar.Bar(
             background=BG, 
             **pl_arrow(RIGHT),
         ),
+        *network_widget,
         *volume_widget,
         *disk_storage_widget,
-        *network_widget,
         *cpu_widget,
         *memory_widget,
         *clock_widget,
