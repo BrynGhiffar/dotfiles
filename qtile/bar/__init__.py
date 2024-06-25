@@ -53,7 +53,10 @@ def lighten(hex_color: str, inc: int):
     r, g, b = colorsys.hsv_to_rgb(h, s, v)
     return tup_to_hex((r, g, b))
 
-BG = "#1d1e32"
+# BG = "#1d1e32"
+# BG = "#085f63"
+# BG = "#0b121a"
+BG = "#1e251d"
 
 GRAY1 = lighten(BG, 2)
 GRAY2 = lighten(BG, 6)

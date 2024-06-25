@@ -54,7 +54,7 @@ def get_class(window):
     return window['wm_class'][1]
 
 def get_screen(group):
-    if group in "123":
+    if group in "12345":
         return 0
     if group in "asd":
         return 1
@@ -95,7 +95,7 @@ def focus_to_window(qtile: Qtile, window):
     #     win.group.setlayout("max")
 
 def rofi_window_switcher(qtile: Qtile):
-    window_order = { "1": 1, "2": 2, "3": 3, "a": 4, "s": 5, "d": 6 }
+    window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5 }
     windows = [dict(
         wid=w["id"],
         name=w["name"],
@@ -106,6 +106,8 @@ def rofi_window_switcher(qtile: Qtile):
     def render(i, w):
         name_max_len = 5
         name = w["name"]
+        if name is None:
+            name = "No Name"
         if len(name) > name_max_len:
             name = name[:name_max_len] + "..."
         group = w["group"]
