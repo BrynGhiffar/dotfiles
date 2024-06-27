@@ -3,7 +3,7 @@
 if [[ $(hostname) == *"laptop"* ]]; then
   conf_loc=~/config
 else
-  conf_loc=~/arch-config
+  conf_loc=~/dotfiles
 fi
 
 if [ -d ~/.config/rofi ]; then
