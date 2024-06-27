@@ -71,9 +71,17 @@ network_widget = get_network_widget(
     background=GRAY1,
 )
 
-volume_widget = get_volume_widget(
-    background=GRAY1,
-)
+def get_volume_widget_aux():
+    background = GRAY1
+    hostname = gethostname()
+    if "laptop" in hostname:
+        background = GRAY2
+
+    return get_volume_widget(
+        background=background
+    )
+
+volume_widget = get_volume_widget_aux()
 
 backlight_widget = get_backlight_widget(
     background=GRAY2
