@@ -131,7 +131,7 @@ function_keys = [
 rofi_keys = [
     Key(
         MOD, "space", 
-        lazy.spawn("rofi -show run"),
+        lazy.spawn("rofi -show run -monitor DP-3"),
         desc="spawn rofi"
     ),
     Key(

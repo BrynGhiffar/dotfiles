@@ -91,11 +91,11 @@ def focus_to_window(qtile: Qtile, window):
         win.group.setlayout("columns")
     win.focus(True)
     win.disable_floating()
-    # if is_max:
-    #     win.group.setlayout("max")
+    if is_max:
+        win.group.setlayout("max")
 
 def rofi_window_switcher(qtile: Qtile):
-    window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5 }
+    window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "a": 101, "s": 102, "d": 103 }
     windows = [dict(
         wid=w["id"],
         name=w["name"],
@@ -114,6 +114,8 @@ def rofi_window_switcher(qtile: Qtile):
         clss = w["clss"]
         num = i + 1
         hidden = ZERO_WIDTH_CHAR * num
+        wid = w["wid"]
+        logger.warn(f"{name} {wid}")
         return f":{group}: {clss} | {name}{hidden}"
     items = windows
     strs = "\n".join([render(i, w) for i, w in enumerate(items)])
@@ -121,7 +123,7 @@ def rofi_window_switcher(qtile: Qtile):
     template = f"echo -e '{strs}'"
 
     res = subprocess.run(
-        [ f"{template} | rofi -dmenu -i -p 'windows'" ],
+        [ f"{template} | rofi -dmenu -i -p 'windows' -monitor DP-3" ],
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE

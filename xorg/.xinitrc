@@ -11,3 +11,5 @@ picom &
 # So that dunst can start without a display manager
 systemctl --user import-environment DISPLAY
 exec qtile start
+# exec /home/bryn/projects/personal/rust/lanta/target/release/lanta
+xset r rate 300 40

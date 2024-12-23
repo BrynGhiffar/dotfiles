@@ -56,7 +56,10 @@ def lighten(hex_color: str, inc: int):
 # BG = "#1d1e32"
 # BG = "#085f63"
 # BG = "#0b121a"
-BG = "#1e251d"
+
+# Green background
+# BG = "#1e251d"
+BG = "#151515"
 
 GRAY1 = lighten(BG, 2)
 GRAY2 = lighten(BG, 6)
@@ -64,7 +67,7 @@ GRAY3 = lighten(BG, 10)
 GRAY4 = lighten(BG, 14)
 GRAY5 = lighten(BG, 18)
 GRAY6 = lighten(BG, 22)
-GRAY7 = lighten(BG, 26)
+GRAY7 = lighten(BG, 24)
 GRAY8 = "#45454a"
 
 network_widget = get_network_widget(
