@@ -94,6 +94,15 @@ def focus_to_window(qtile: Qtile, window):
     if is_max:
         win.group.setlayout("max")
 
+def fzf_window_switcher(qtile: Qtile):
+    res = subprocess.run(
+        [ f"bash -c \"echo -e 'yes\nno' | fzfmenu\"" ],
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    pass
+
 def rofi_window_switcher(qtile: Qtile):
     window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "a": 101, "s": 102, "d": 103 }
     windows = [dict(
@@ -124,16 +133,29 @@ def rofi_window_switcher(qtile: Qtile):
 
     res = subprocess.run(
         [ f"{template} | rofi -dmenu -i -p 'windows' -monitor DP-3" ],
+        # [ f"{template} | fzfmenu" ],
+        # [ f"cattt /home/bryn/nohupz.out" ],
         shell=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
+    # res = subprocess.check_output(
+    #     [ f"{template} | rofi -dmenu -i -p 'windows' -monitor DP-3" ],
+    #     # [ f"{template} | fzfmenu" ],
+    #     # [ f"bash -c \"echo -e 'yes\nno' | fzfmenu\"" ],
+    #     shell=True,
+    # )
     choice = res.stdout.decode("utf-8").strip()
     index = index_number_from_choice(choice)
     if index is None:
         return
+    if index >= len(windows):
+        return
     window = windows[index]
     focus_to_window(qtile, window)
+    # import time
+    # time.sleep(5)
+    pass
 
 def start_wgpu_wallpaper(qtile: Qtile):
     spawn = lazy.spawn("wgpu-application")

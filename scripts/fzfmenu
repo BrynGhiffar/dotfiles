@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+kitty bash -c "fzf $* < /proc/$$/fd/0 > /proc/$$/fd/1"

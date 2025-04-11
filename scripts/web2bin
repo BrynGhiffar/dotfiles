@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+
+import os
+import click
+import shutil
+import subprocess
+
+@click.command()
+@click.argument("url")
+@click.argument("name")
+def main(url, name):
+    """Script to run pake and extract binary from .deb file"""
+    package_root = f"____package_{name}"
+    pake_command = f"pake {url} --hide-title-bar --name {name}"
+    extract_command = f"bsdtar -O -xf \"{name}.deb\" data.tar.gz | bsdtar -C \".\" -xf -"
+    prev_dir = os.getcwd()
+    os.mkdir(package_root)
+    os.chdir(package_root)
+    subprocess.run(pake_command, shell=True)
+    subprocess.run(extract_command, shell=True)
+    subprocess.run("ls -la", shell=True)
+    os.chdir('usr/bin')
+    subprocess.run(f'mv pake {prev_dir}/{name}', shell=True)
+    os.chdir(prev_dir)
+    shutil.rmtree(package_root)
+
+if __name__ == '__main__':
+    main()

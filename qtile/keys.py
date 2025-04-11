@@ -6,6 +6,7 @@ from groups import groups
 from utils import \
     go_to_group, \
     go_to_group_and_move_window, \
+    fzf_window_switcher, \
     rofi_window_switcher, \
     start_wgpu_wallpaper
 
@@ -129,14 +130,35 @@ function_keys = [
 ]
 
 rofi_keys = [
+    # Key(
+    #     MOD, "space", 
+    #     lazy.spawn("rofi -show run -monitor DP-3"),
+    #     desc="spawn rofi"
+    # ),
     Key(
         MOD, "space", 
-        lazy.spawn("rofi -show run -monitor DP-3"),
+        lazy.group['scratchpad'].dropdown_toggle('launcher'),
         desc="spawn rofi"
     ),
     Key(
+        MOD, "e", 
+        lazy.group['scratchpad'].dropdown_toggle('yazi'),
+        desc="spawn rofi"
+    ),
+    Key(
+        MOD, "m", 
+        lazy.group['scratchpad'].dropdown_toggle('btop'),
+        desc="spawn btop"
+    ),
+    Key(
+        MOD, "b", 
+        lazy.group['scratchpad'].dropdown_toggle('wallpaper'),
+        desc="spawn btop"
+    ),
+    Key(
         MOD, "r", 
-        lazy.function(rofi_window_switcher),
+        # lazy.function(fzf_window_switcher),
+        lazy.group['scratchpad'].dropdown_toggle('window_switcher'),
         desc="spawn rofi window switcher"
     ),
 ]
@@ -189,14 +211,14 @@ group_navigation_keys = list(map(lambda group: Key(
     # lazy.group[i.name].toscreen(),
     lazy.function(go_to_group(group.name)),
     desc="Switch to group {}".format(group.name),
-), groups))
+), groups[1:]))
 
 move_window_to_group_keys = list(map(lambda group: Key(
     MOD_SHIFT, group.name,
     # lazy.window.togroup(i.name, switch_group=False),
     lazy.function(go_to_group_and_move_window(group.name)),
     desc="Switch to & move focused window to group {}".format(group.name),
-), groups))
+), groups[1:]))
 
 keys = [
     *window_navigation_keys,

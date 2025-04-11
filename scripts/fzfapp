@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+find /usr/share/applications ~/.local/share/applications -name '*.desktop' \
+	| xargs -I {} basename {} .desktop \
+	| fzf \
+	| xargs -I {} setsid nohup gtk-launch {}

@@ -1,4 +1,5 @@
 from libqtile import layout
+from libqtile.config import Match
 
 column_layout = layout.Columns(
         border_focus="#3489eb",
@@ -23,6 +24,7 @@ floating_layout = layout.Floating(
     border_normal="#000000",
     border_width=0,
     float_rules=[
+        Match(title="rmenu")
         # Run the utility of `xprop` to see the wm class and name of an X client.
         # *layout.Floating.default_float_rules,
         # Match(wm_class="confirmreset"),  # gitk

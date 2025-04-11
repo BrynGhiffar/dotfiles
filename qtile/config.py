@@ -19,6 +19,7 @@ from groups import groups as _groups
 from layouts import \
     layouts as _layouts, \
     floating_layout as _floating_layout
+import os
 
 import subprocess
 
@@ -60,23 +61,20 @@ def focus_changed():
 
 def get_wm_class(window):
     wm_classes = window.info()["wm_class"]
-    if len(wm_classes) == 1:
-        return wm_classes[0]
-    return wm_classes[1]
+    return wm_classes[0]
 
 @hook.subscribe.client_new
 def new_client(window):
-    qtile.warning()
+    static_wm_class = "app-wallpaper"
     wm_class = get_wm_class(window)
-    if wm_class != "wgpu-wallpaper":
+    if wm_class != static_wm_class:
         return
-    logger.warning("WGPU wallpaper started")
-    window.static(screen=0, x=0, y=0, width=1920, height=1080)
+    window.static(screen=0, x=-1, y=-1, width=1921, height=1081)
     window.keep_below(True)
 
 @hook.subscribe.startup_once
 def start():
     # subprocess.run([ "start-wgpu", "&" ])
     # subprocess.Popen("cpulimit -l 5 wgpu-wallpaper")
-    subprocess.Popen("start-wgpu")
+    # subprocess.Popen("fluid-simul-bin")
     pass

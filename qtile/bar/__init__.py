@@ -19,6 +19,7 @@ from bar.widgets import \
     RIGHT
 
 from bar.timer import Timer
+import json
 
 # Idea: Dynamically set the color of the bar according to your wallpaper
 
@@ -59,26 +60,42 @@ def lighten(hex_color: str, inc: int):
 
 # Green background
 # BG = "#1e251d"
-BG = "#151515"
 
-GRAY1 = lighten(BG, 2)
-GRAY2 = lighten(BG, 6)
-GRAY3 = lighten(BG, 10)
-GRAY4 = lighten(BG, 14)
-GRAY5 = lighten(BG, 18)
-GRAY6 = lighten(BG, 22)
-GRAY7 = lighten(BG, 24)
-GRAY8 = "#45454a"
+def get_wal_color_json(number: int) -> str:
+    with open('/home/bryn/.cache/wal/colors.json', 'r') as f:
+        colors = json.load(f)
+
+    return colors["colors"][f"color{number}"]
+
+# BG = "#151515"
+# COLOR1 = lighten(BG, 2)
+# COLOR2 = lighten(BG, 6)
+# COLOR3 = lighten(BG, 10)
+# COLOR4 = lighten(BG, 14)
+# COLOR5 = lighten(BG, 18)
+# COLOR6 = lighten(BG, 22)
+# COLOR7 = lighten(BG, 24)
+# GRAY8 = "#45454a"
+
+BG = get_wal_color_json(0)
+COLOR1 = get_wal_color_json(0)
+COLOR2 = get_wal_color_json(1)
+COLOR3 = get_wal_color_json(2)
+COLOR4 = get_wal_color_json(3)
+COLOR5 = get_wal_color_json(4)
+COLOR6 = get_wal_color_json(5)
+COLOR7 = get_wal_color_json(6)
+GRAY8 = get_wal_color_json(8)
 
 network_widget = get_network_widget(
-    background=GRAY1,
+    background=COLOR1,
 )
 
 def get_volume_widget_aux():
-    background = GRAY1
+    background = COLOR1
     hostname = gethostname()
     if "laptop" in hostname:
-        background = GRAY2
+        background = COLOR2
 
     return get_volume_widget(
         background=background
@@ -87,35 +104,35 @@ def get_volume_widget_aux():
 volume_widget = get_volume_widget_aux()
 
 backlight_widget = get_backlight_widget(
-    background=GRAY2
+    background=COLOR2
 )
 
 battery_widget = get_battery_widget(
-    background=GRAY2
+    background=COLOR2
 )
 
 disk_storage_widget = get_disk_storage_widget(
-    background=GRAY3,
+    background=COLOR3,
 )
 
 cpu_widget = get_cpu_widget(
-    background=GRAY4,
+    background=COLOR4,
 )
 
 memory_widget = get_memory_widget(
-    background=GRAY5,
+    background=COLOR5,
 )
 
 systray_widget = get_systray_widget(
-    background=GRAY6,
+    background=COLOR6,
 )
 
 clock_widget = get_clock_widget(
-    background=GRAY6,
+    background=COLOR6,
 )
 
 power_widget = get_power_widget(
-    background=GRAY7
+    background=COLOR7
 )
 
 def get_bar_height():
@@ -137,7 +154,7 @@ left_bar = bar.Bar(
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
-            highlight_color=GRAY1,
+            highlight_color=COLOR1,
             foreground="#ffffff",
             this_screen_border="#ffffff",
             background=BG,
@@ -149,7 +166,7 @@ left_bar = bar.Bar(
             **pl_arrow(LEFT)
         ),
         widget.TaskList(
-            border=GRAY5,
+            border=COLOR2,
             borderwidth=0,
             highlight_method="block",
             background=BG,
@@ -172,7 +189,7 @@ left_bar = bar.Bar(
         *cpu_widget,
         *memory_widget,
         *systray_widget,
-        Timer(background=GRAY6, **pl_arrow(RIGHT)),
+        Timer(background=COLOR6, **pl_arrow(RIGHT)),
         *clock_widget,
         *power_widget
     ],
@@ -190,7 +207,7 @@ right_bar = bar.Bar(
             inactive="#ffffff",
             block_highlight_text_color="#ffffff",
             this_current_screen_border="#ffffff",
-            highlight_color=GRAY1,
+            highlight_color=COLOR1,
             foreground="#ffffff",
             this_screen_border="#ffffff",
             background=BG,

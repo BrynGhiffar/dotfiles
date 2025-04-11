@@ -143,8 +143,8 @@ def get_power_widget(**config):
             # Different themes can have different icons?
             # text_closed="󰛡",
             # text_open="󱃲",
-            text_closed="󰐅",
-            text_open="󰐅",
+            text_closed="󰐀",
+            text_open="󰐀",
             **config,
             widgets=[
                 logoff_button(

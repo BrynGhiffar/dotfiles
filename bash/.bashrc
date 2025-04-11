@@ -7,8 +7,9 @@
 export SEM_WORKSTATION=100.125.155.125
 export EDITOR='nvim'
 export VISUAL='nvim'
+export FZF_DEFAULT_OPTS="--reverse --prompt ' ' --color=prompt:#19cb00,marker:#19cb00,pointer:#19cb00 --pointer ''"
 
-if [[ $(hostname) == "archdesktop" ]]; then
+if [[ $(hostname) == "home" ]]; then
   # Ask gpg from the terminal
   export GPG_TTY=$(tty)
   # export GPG_AGENT_INFO=""
@@ -44,6 +45,7 @@ fi
 
 # nvm configuration
 source /usr/share/nvm/init-nvm.sh
+
 source ~/.local/scripts/source/ffmgif.sh
 source ~/.local/scripts/source/path.sh
 source ~/.local/scripts/source/git-prompt.sh
@@ -60,3 +62,11 @@ eval $(keychain --eval --quiet id_ed25519)
 # Set repeat rate
 # xset r rate 300 40
 
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

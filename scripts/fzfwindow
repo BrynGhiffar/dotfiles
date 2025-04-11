@@ -1,0 +1,70 @@
+#!/usr/bin/python
+
+from libqtile.command.client import InteractiveCommandClient
+import subprocess
+import string
+
+def get_class(window):
+    if len(window['wm_class']) == 1:
+        return window['wm_class'][0]
+    return window['wm_class'][1]
+
+def get_screen(group):
+    if group in "12345":
+        return 0
+    if group in "asd":
+        return 1
+
+def focus_to_window(client: InteractiveCommandClient, window: dict):
+    wid = window["wid"]
+    group = window["group"]
+    win = client.window[wid]
+    screen = get_screen(group)
+    if win is None:
+        return
+    client.to_screen(screen)
+    win.group.toscreen(screen)
+    # is_focused = win.group.current_window.info()["id"] == wid
+    # if is_focused:
+    #     return
+    is_max = win.group.layout.info()['name'] == 'max'
+    if is_max:
+        win.group.setlayout("columns")
+    win.focus(True)
+    win.disable_floating()
+    if is_max:
+        win.group.setlayout("max")
+
+def switcher():
+    window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "a": 101, "s": 102, "d": 103 }
+    blacklist_window_names = ["fzfwindow"]
+    client = InteractiveCommandClient()
+    windows = [
+        dict(
+            wid=w["id"], 
+            name=w["name"], 
+            group=w["group"], 
+            clss=get_class(w)) for w in client.windows() if w["group"] in window_order and w["name"] not in blacklist_window_names]
+    windows.sort(key=lambda w: window_order[w["group"]])
+    options = "\n".join([f"[{w['clss']}] {w['name']}" for w in windows])
+    res = subprocess.run(
+            [ f"cat -n | fzf --with-nth 2.. | awk '{{print $1}}' "],
+            input=options,
+            encoding='utf-8',
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+            )
+    # choice = res.stdout.decode('utf-8').strip()
+    choice = res.stdout.strip()
+    if not choice.isnumeric():
+        return 
+    choice_idx = int(choice) - 1
+    focus_to_window(client, windows[choice_idx])
+
+def main():
+    switcher()
+    pass
+
+if __name__ == '__main__':
+    main()
