@@ -10,20 +10,23 @@ Dotfiles for my home desktop setup
 ![Screenshot](/screenshots/bspwm_screenshot.png)
 
 ## Things I currently us
-* Terminal: kitty
-* Text Editor: nvim
-* Window Manager: bspwm
-* Compositor: Picom (picom-git version from AUR)
-* Notification-daemon: dunst
-* Window Switcher/App launcher: fzf with kitty
-* Font: fira code
+* terminal: kitty
+* text editor: nvim
+* wm: bspwm
+* bar: polybar
+* compositor: Picom (picom-git version from AUR)
+* notification-daemon: dunst
+* window Switcher/app launcher: fzf with kitty
+* font: fira code
+* shell: bash (thinking of moving to fish)
 
 ## Available Configurations
-* Font: Fira Code Nerd Fonts Mono
-* Terminal: Kitty
-* Text Editor: Visual Studio Code & NVIM (NVChad)
-* Window Manager: Qtile
-* Compositor: Picom (picom-git version from AUR)
-* Notification-daemon: Dunst
-* Window Switcher/App launcher: Rofi
-
+* qtile
+* kitty
+* picom
+* dunst
+* hyprland
+* rofi
+* wofi
+* ranger (I use yazi now)
+* waybar
