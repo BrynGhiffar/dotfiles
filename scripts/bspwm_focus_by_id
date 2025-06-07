@@ -1,0 +1,15 @@
+#!/bin/sh
+
+wid=$1
+bspc node -f "$wid" && exit 0
+desktop=$(bspc query -D -n "$wid")
+bspc query -T -d $desktop | jq -er '.layout == "tiled"' > /dev/null && exit 1
+
+# hide all nodes in the desktop
+bspc query -N -d $desktop -n '.window' | while read -r wid; do
+	bspc node "$wid" -g hidden=on
+done
+# show target node
+bspc node "$wid" -g hidden=off
+
+bspc node -f $wid

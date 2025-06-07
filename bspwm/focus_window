@@ -1,0 +1,16 @@
+#!/bin/sh
+
+bspc node -f "$1" && exit 0
+bspc query -T -d | jq -er '.layout == "tiled"' > /dev/null && exit 1
+
+# Monocle layout move
+current=$(bspc query -N -n '.focused.window' -d focused)
+after=$(bspc query -N -n "$2.local.window")
+
+# show after window
+bspc node $after -g hidden
+bspc node -f $after
+
+# hide focused window
+bspc node $current -g hidden
+

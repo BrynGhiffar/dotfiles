@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# if monocle then toggle tiled
+
+is_tiled=$(bspc query -T -d | jq -er '.layout == "tiled"')
+
+if [ "$is_tiled" = "true" ]; then
+	# hide all except focused
+	for node_i in $(bspc query -N -n '.!focused.window' -d focused)
+	do
+		bspc node $node_i -g hidden
+	done
+else
+	for node_i in $(bspc query -N -n '.hidden.window' -d focused)
+	do
+		bspc node $node_i -g hidden
+	done
+fi
+
+bspc desktop -l next

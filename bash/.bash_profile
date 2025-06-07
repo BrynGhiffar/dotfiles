@@ -9,7 +9,7 @@ if [[ "$(tty)" = "/dev/tty1" ]]; then
     pgrep qtile || startx /home/brynghiffar/.xinitrc
     . "$HOME/.cargo/env"
   else
-    pgrep qtile || startx /home/bryn/.xinitrc
+    # pgrep qtile || startx /home/bryn/.xinitrc
   fi
   xset s off
   xset -dpms

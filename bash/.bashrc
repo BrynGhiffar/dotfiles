@@ -4,7 +4,6 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-export SEM_WORKSTATION=100.125.155.125
 export EDITOR='nvim'
 export VISUAL='nvim'
 export FZF_DEFAULT_OPTS="--reverse --prompt ' ' --color=prompt:#19cb00,marker:#19cb00,pointer:#19cb00 --pointer ''"
@@ -16,10 +15,13 @@ if [[ $(hostname) == "home" ]]; then
   export QLIC=/home/bryn/q/kdb_plus
 
   # Created by `pipx` on 2024-05-22 04:54:36
-  export PATH="$PATH:/home/bryn/.local/bin"
+  export PATH="$PATH:/home/bryn/.local/bin:/home/bryn/.cargo/bin"
 
   export CC="/usr/bin/clang"
   export CXX="/usr/bin/clang++"
+
+  shopt -s histappend
+  export PROMPT_COMMAND='history -a'
 
   # The next line updates PATH for the Google Cloud SDK.
   if [ -f '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc' ]; then . '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc'; fi

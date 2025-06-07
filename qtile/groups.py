@@ -39,7 +39,7 @@ def get_groups():
                 ),
                 DropDown(
                     "launcher", 
-                    "kitty -o background_opacity=1.0 bash -c 'fzfapp'", 
+                    "kitty -o background_opacity=1.0 fzfapp", 
                     x=0.5 - launcher_width / 2, 
                     y=0.5 - launcher_height / 2, 
                     width=launcher_width, 
@@ -49,7 +49,7 @@ def get_groups():
                 ),
                 DropDown(
                     "window_switcher", 
-                    "kitty -o background_opacity=1.0 --title fzfwindow bash -c 'fzfwindow'", 
+                    "kitty -o background_opacity=1.0 --title fzfwindow fzfwindow", 
                     x=0.5 - launcher_width / 2, 
                     y=0.5 - launcher_height / 2, 
                     width=launcher_width, 
@@ -59,7 +59,7 @@ def get_groups():
                 ),
                 DropDown(
                     "wallpaper", 
-                    "kitty -o background_opacity=1.0 bash -c 'fzfwallpaper'", 
+                    "kitty -o background_opacity=1.0 fzfwallpaper", 
                     x=0.5 - btop_width / 2, 
                     y=0.5 - btop_height / 2, 
                     width=btop_width, 

@@ -1,0 +1,6 @@
+vim.diagnostic.config({ virtual_text = true })
+vim.lsp.inlay_hint.enable()
+vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd("set number")
+vim.cmd("set shiftwidth=4")
+vim.cmd("set tabstop=4")

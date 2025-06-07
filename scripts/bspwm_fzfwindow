@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# get classname of window
+function widtowname() {
+	wid=$1
+	res=$(bspc query -T -n $wid | jq '.client.className' | sed 's/^"\(.*\)"$/\1/')
+	echo "${res,,}"
+}
+
+export -f widtowname
+
+function filter_fzfwindow() {
+	par=$(widtowname $1)
+	[[ "$par" != "fzfwindow" ]]
+}
+
+function getwids() {
+	res=$(bspc query -N -n '.window')
+	while IFS= read -r line; do
+		if filter_fzfwindow "$line"; then
+			echo "$line"
+		fi
+	done <<< $res
+}
+
+# Change the formatting of the option here
+function getoptions() {
+	while IFS= read -r line; do
+		echo "[$(widtowname $line)] $(xtitle $line)";
+	done <<< $1
+}
+
+
+
+wids=$(getwids)
+choice=$(getoptions "$wids" | cat -n | fzf --with-nth 2.. | awk '{{print $1}}')
+idx=$((choice - 1))
+mapfile -t wids_arr <<< "$wids"
+wid="${wids_arr[idx]}"
+
+# Focus window assuming monocle and tiled
+bspc node -f "$wid" && exit 0
+desktop=$(bspc query -D -n "$wid")
+bspc query -T -d $desktop | jq -er '.layout == "tiled"' > /dev/null && exit 1
+
+# hide all nodes in the desktop
+bspc query -N -d $desktop -n '.window' | while read -r wid; do
+	bspc node "$wid" -g hidden=on
+done
+
+# show target node
+bspc node "$wid" -g hidden=off
+
+bspc node -f $wid

@@ -20,7 +20,6 @@ from layouts import \
     layouts as _layouts, \
     floating_layout as _floating_layout
 import os
-
 import subprocess
 
 # █▀▀ █▀▀ █▄░█ █▀▀ █▀█ ▄▀█ █░░
@@ -74,6 +73,8 @@ def new_client(window):
 
 @hook.subscribe.startup_once
 def start():
+    home = os.path.expanduser('~/dotfiles/qtile/autostart.sh')
+    subprocess.call(home)
     # subprocess.run([ "start-wgpu", "&" ])
     # subprocess.Popen("cpulimit -l 5 wgpu-wallpaper")
     # subprocess.Popen("fluid-simul-bin")

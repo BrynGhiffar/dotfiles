@@ -1,0 +1,56 @@
+#!/usr/bin/python
+from pathlib import Path
+from os import getenv
+from shutil import rmtree
+
+HOME = getenv("HOME")
+if not HOME:
+    raise Exception("HOME environment variable is not defined")
+
+HOME_PATH = Path(HOME)
+CONFIG_BASE = HOME_PATH / ".config"
+DOTLOCAL = HOME_PATH / ".local"
+SETUP_PATH = Path(__file__)
+DOTFILES_PATH = SETUP_PATH.parent
+
+SETUP_CONFIG = {
+    **{ (DOTFILES_PATH / v): (CONFIG_BASE / v)  for v in [
+        "rofi",
+        "wofi",
+        "kitty",
+        "nvim", 
+        "qtile",
+        "bspwm", 
+        "sxhkd",
+        "ranger",
+        "hypr",
+        "waybar",
+        "neofetch",
+        "dunst",
+        "wlogout",
+        "polybar",
+    ] },
+    DOTFILES_PATH / "picom" / "picom.conf" : CONFIG_BASE / "picom.conf",
+    DOTFILES_PATH / "scripts": DOTLOCAL / "scripts",
+    DOTFILES_PATH / "bash" / ".bashrc" : HOME_PATH / ".bashrc",
+    DOTFILES_PATH / "bash" / ".bash_profile": HOME_PATH / ".bash_profile",
+    DOTFILES_PATH / "xorg" / ".xinitrc" : HOME_PATH / ".xinitrc"
+}
+
+def create_symlink(source_path: Path, target_path: Path):
+    if target_path.exists():
+        if target_path.is_symlink():
+            target_path.unlink()
+        else:
+            rmtree(target_path)
+    target_path.symlink_to(source_path)
+
+def setup():
+    for source, target in SETUP_CONFIG.items():
+        source_path_str = str(source.absolute())
+        target_path_str = str(target.absolute())
+        print(f"Creating symlink from '{source_path_str}' to '{target_path_str}'")
+        create_symlink(source, target)
+
+if __name__ == '__main__':
+    setup()

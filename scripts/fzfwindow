@@ -2,7 +2,6 @@
 
 from libqtile.command.client import InteractiveCommandClient
 import subprocess
-import string
 
 def get_class(window):
     if len(window['wm_class']) == 1:
@@ -35,7 +34,7 @@ def focus_to_window(client: InteractiveCommandClient, window: dict):
     if is_max:
         win.group.setlayout("max")
 
-def switcher():
+def qtile_switcher():
     window_order = { "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "a": 101, "s": 102, "d": 103 }
     blacklist_window_names = ["fzfwindow"]
     client = InteractiveCommandClient()
@@ -63,7 +62,7 @@ def switcher():
     focus_to_window(client, windows[choice_idx])
 
 def main():
-    switcher()
+    qtile_switcher()
     pass
 
 if __name__ == '__main__':

@@ -12,11 +12,7 @@ image=$(find \
 	-type f \( \
 		-iname "*.jpg" \
 		-o -iname "*.jpeg" \
-		-o -iname "*.png" \
-		-o -iname "*.gif" \
-		-o -iname "*.bmp" \
-		-o -iname "*.tiff" \
-		-o -iname "*.webp" \) \
+		-o -iname "*.png" \) \
 	| fzf --preview='kitty icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@0x0 {}')
 
 if [ -z "$image" ]; then
@@ -25,7 +21,10 @@ fi
 
 nitrogen --head=0 --set-auto $image --save
 nitrogen --head=1 --set-auto $image --save
-wal -i $image -n -s --cols16 darken
+wal -i $image -n -s -e --cols16 darken
+
+xrdb ~/.cache/wal/colors.Xresources
+polybar-msg cmd restart
 
 # reload qtile
-qtile cmd-obj -o cmd -f reload_config
+# qtile cmd-obj -o cmd -f reload_config
