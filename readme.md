@@ -4,29 +4,34 @@
     </h1>
 </div>
 
-Dotfiles for my home desktop setup
-
-## Screenshot
 ![Screenshot](/screenshots/bspwm_screenshot.png)
 
-## Things I currently us
-* terminal: kitty
-* text editor: nvim
-* wm: bspwm
-* bar: polybar
-* compositor: Picom (picom-git version from AUR)
-* notification-daemon: dunst
-* window Switcher/app launcher: fzf with kitty
-* font: fira code
-* shell: bash (thinking of moving to fish)
+# Current Stack
+* Terminal: kitty
+* Text Editor: nvim
+* Wm: bspwm
+* Bar: polybar
+* Compositor: Picom (picom-git version from AUR)
+* Notification-daemon: dunst
+* Window switcher/App launcher: fzf with kitty
+* Font: fira code
+* Shell: bash (thinking of moving to fish)
 
-## Available Configurations
-* qtile
-* kitty
-* picom
-* dunst
-* hyprland
-* rofi
-* wofi
-* ranger (I use yazi now)
-* waybar
+# Available Configurations
+* Window Managers:
+    * qtile
+    * bspwm
+    * hyprland
+* Run Launchers:
+    * rofi
+    * wofi
+* Bars:
+    * Waybar
+    * Polybar
+* Terminals:
+    * Kitty
+* Compositors:
+    * picom-git
+* Others:
+    * dunst
+    * ranger (I use yazi now)
