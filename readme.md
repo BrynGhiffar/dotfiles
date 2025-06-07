@@ -4,6 +4,7 @@
     </h1>
 </div>
 
+![Screenshot](/screenshots/bspwm_s1.png)
 ![Screenshot](/screenshots/bspwm_screenshot.png)
 
 # Current Stack
