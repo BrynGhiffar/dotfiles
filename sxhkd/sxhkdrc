@@ -8,14 +8,14 @@ super + Return
 
 # program launcher
 super + @space
-	kitty --class fzfapp -o background_opacity=1.0 fzfapp
+	kitty --class fzfapp -o background_opacity=1.0 -o shell=/bin/bash fzfapp
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
 
 super + r
-	kitty --class fzfwindow -o background_opacity=1.0 bspwm_fzfwindow
+	kitty --class fzfwindow -o background_opacity=1.0 -o shell=/bin/bash bspwm_fzfwindow
 
 #
 # bspwm hotkeys
@@ -37,7 +37,7 @@ super + ctrl + s
 
 # # alternate between the tiled and monocle layout
 super + m
-	kitty --class fzfwallpaper -o background_opacity=1.0 fzfwallpaper
+	kitty --class fzfwallpaper -o background_opacity=1.0 -o shell=/bin/bash fzfwallpaper
 
 # send the newest marked node to the newest preselected node
 super + y
