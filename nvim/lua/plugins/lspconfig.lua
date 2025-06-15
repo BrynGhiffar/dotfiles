@@ -16,6 +16,8 @@ local lua_ls = {
 	}
 }
 
+local ts_ls = { }
+
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -24,10 +26,25 @@ return {
 				pyright = {},
 				rust_analyzer = rust_analyzer,
 				clangd = {},
-				lua_ls = lua_ls
+				ts_ls = ts_ls,
+				lua_ls = lua_ls,
+				nushell = {}
 			}
 		},
 		config = function(_, opts)
+			vim.diagnostic.config({
+			  signs = {
+				text = {
+				  [vim.diagnostic.severity.ERROR] = '✘',
+				  [vim.diagnostic.severity.WARN] = '▲',
+				  [vim.diagnostic.severity.HINT] = '⚑',
+				  [vim.diagnostic.severity.INFO] = '»',
+				},
+			  },
+			})
+			-- DiagnosticVirtualTextError xxx cterm=italic gui=italic guifg=#f38ba9
+			vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { bg = "#ff0000"})
+
 			local lspconfig = require('lspconfig')
 			for server, config in pairs(opts.servers) do
 				config.capabilities = require('blink.cmp')
