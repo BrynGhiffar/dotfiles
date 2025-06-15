@@ -14,6 +14,7 @@ SETUP_PATH = Path(__file__)
 DOTFILES_PATH = SETUP_PATH.parent
 
 SETUP_CONFIG = {
+    # Directory setup
     **{ (DOTFILES_PATH / v): (CONFIG_BASE / v)  for v in [
         "rofi",
         "wofi",
@@ -29,8 +30,12 @@ SETUP_CONFIG = {
         "dunst",
         "wlogout",
         "polybar",
+        "nushell"
     ] },
+
+    # File Setup
     DOTFILES_PATH / "picom" / "picom.conf" : CONFIG_BASE / "picom.conf",
+    DOTFILES_PATH / "starship" / "starship.toml": CONFIG_BASE / "starship.toml",
     DOTFILES_PATH / "scripts": DOTLOCAL / "scripts",
     DOTFILES_PATH / "bash" / ".bashrc" : HOME_PATH / ".bashrc",
     DOTFILES_PATH / "bash" / ".bash_profile": HOME_PATH / ".bash_profile",
