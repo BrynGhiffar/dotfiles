@@ -9,7 +9,7 @@ return {
       -- You can add other Tree-sitter features here if you like,
       -- such as indent, incremental_selection, etc.
       -- indent = { enable = true },
-	  ensure_installed = { "nu" }
+	  ensure_installed = { "nu", "java" }
     }
   end,
 }

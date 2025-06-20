@@ -2,7 +2,13 @@ local api = require("nvim-tree.api")
 local tscope = require('telescope.builtin')
 
 local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<C-f>", function() api.tree.toggle() end)
+vim.keymap.set("n", "<C-f>", function()
+	if vim.fn.bufname():match 'NvimTree_' then
+		api.tree.toggle()
+	else
+		api.tree.find_file({ open = true, focus = true })
+	end
+end)
 vim.keymap.set("n", 'H', '<C-o>')
 vim.keymap.set("n", 'L', '<C-i>')
 vim.keymap.set("n", "<leader>ff", tscope.find_files, { desc = 'Telescope find files' })

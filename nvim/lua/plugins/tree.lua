@@ -9,6 +9,9 @@ return {
 		require("nvim-tree").setup {
 			git = { ignore = false },
 			filters = { dotfiles = false, },
+			live_filter = {
+				always_show_folders = false,
+			},
 			diagnostics = {
 				enable = true,
 				icons = {
@@ -20,7 +23,9 @@ return {
 				show_on_dirs = true,
 			},
 			view = {
-				signcolumn = 'yes'
+				centralize_selection = true,
+				signcolumn = 'yes',
+				width = 30,
 			}
 		}
 	end,
