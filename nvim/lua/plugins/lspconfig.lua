@@ -25,11 +25,6 @@ return {
 		dependencies = {
 			{
 				"neovim/nvim-lspconfig",
-				setup = {
-					jdtls = function()
-						require("java").setup({})
-					end
-				}
 			}
 		}
 	},
@@ -45,6 +40,11 @@ return {
 				jdtls = {},
 				nushell = {}
 			},
+			setup = {
+				jdtls = function()
+					require("java").setup({})
+				end
+			}
 		},
 		config = function(_, opts)
 			vim.diagnostic.config({

@@ -31,6 +31,23 @@ load-env {
 	])
 }
 
+^ssh-agent -c
+    | lines
+    | first 2
+    | parse "setenv {name} {value};"
+    | transpose -r
+    | into record
+    | load-env
+
+^gpg-agent --quiet -c
+    | lines
+    | first 2
+    | parse "setenv {name} {value};"
+    | transpose -r
+    | into record
+    | load-env
+
+
 keychain --eval --quiet id_ed25519
 	| lines
 	| where not ($it | is-empty)
@@ -39,14 +56,6 @@ keychain --eval --quiet id_ed25519
 	| transpose --header-row
 	| into record
 	| load-env
-
-^ssh-agent -c
-    | lines
-    | first 2
-    | parse "setenv {name} {value};"
-    | transpose -r
-    | into record
-    | load-env
 
 $env.config = {
 	show_banner: false,
