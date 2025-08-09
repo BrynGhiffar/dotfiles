@@ -18,8 +18,6 @@
 * Font: fira code
 * Shell: bash (thinking of moving to fish)
 
-test
-
 # Available Configurations
 * Window Managers:
     * qtile
