@@ -12,3 +12,13 @@ disabled = true
 
 [package]
 disabled = true
+
+[hostname]
+disabled = true
+
+[username]
+disabled = true
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch)]($style) '
+

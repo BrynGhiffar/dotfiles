@@ -55,7 +55,7 @@ source ~/.local/scripts/source/bash-prompt.sh
 source ~/.local/scripts/source/aliases.sh
 
 # Bitwyre aliases
-source ~/projects/work_projects/bitwyre/env/activate.sh
+source ~/projects/work/bitwyre/env/activate.sh
 
 # Use setcap for setting port access permission to files
 # sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``

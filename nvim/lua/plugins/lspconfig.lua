@@ -38,7 +38,14 @@ return {
 				ts_ls = ts_ls,
 				lua_ls = lua_ls,
 				jdtls = {},
-				nushell = {}
+				nushell = {},
+				gopls = {
+					analyses = {
+						unusedparams = true,
+					},
+					staticcheck = true,
+					gofumpt = true,
+				}
 			},
 			setup = {
 				jdtls = function()

@@ -27,17 +27,35 @@ load-env {
 	PATH: ($env.PATH | append [
 		"/home/bryn/.local/scripts",
 		"/home/bryn/.cargo/bin",
+		"/home/bryn/go/bin",
 		"/usr/lib/jvm/default/bin"
 	])
 }
 
-^ssh-agent -c
-    | lines
-    | first 2
-    | parse "setenv {name} {value};"
-    | transpose -r
-    | into record
-    | load-env
+do --env {
+    let ssh_agent_file = (
+        $nu.temp-path | path join $"ssh-agent-bryn.nuon"
+    )
+
+    if ($ssh_agent_file | path exists) {
+        let ssh_agent_env = open ($ssh_agent_file)
+        if ($"/proc/($ssh_agent_env.SSH_AGENT_PID)" | path exists) {
+            load-env $ssh_agent_env
+            return
+        } else {
+            rm $ssh_agent_file
+        }
+    }
+
+    let ssh_agent_env = ^ssh-agent -c
+        | lines
+        | first 2
+        | parse "setenv {name} {value};"
+        | transpose --header-row
+        | into record
+    load-env $ssh_agent_env
+    $ssh_agent_env | save --force $ssh_agent_file
+}
 
 ^gpg-agent --quiet -c
     | lines
@@ -113,9 +131,7 @@ def --env record-screen [screen: string] {
 		-i $input $output 
 		-hide_banner -loglevel warning
 		-y) | complete
-	log info "Finished recording..."
-	let exit_code = $res | get exit_code
-	$res
+	log info ("Recording stored at: " ++ $output)
 }
 
 mkdir ($nu.data-dir | path join "vendor/autoload")
