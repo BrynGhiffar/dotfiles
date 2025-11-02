@@ -20,9 +20,6 @@ if [[ $(hostname) == "home" ]]; then
   export CC="/usr/bin/clang"
   export CXX="/usr/bin/clang++"
 
-  shopt -s histappend
-  export PROMPT_COMMAND='history -a'
-
   # The next line updates PATH for the Google Cloud SDK.
   if [ -f '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc' ]; then . '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc'; fi
 
