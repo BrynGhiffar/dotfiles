@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export FZF_DEFAULT_OPTS="--reverse --prompt ' ' --color=prompt:#19cb00,marker:#19cb00,pointer:#19cb00 --pointer ''"
 # get classname of window
 function widtowname() {
 	wid=$1

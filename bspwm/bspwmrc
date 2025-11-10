@@ -6,6 +6,9 @@ xrdb ~/.cache/wal/colors.Xresources
 $HOME/dotfiles/polybar/launch.sh
 xsetroot -cursor_name left_ptr
 
+nitrogen --restore
+picom &
+
 bspc wm -O DPI-3 HDMI-1
 
 bspc monitor DP-3 -d I II III

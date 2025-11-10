@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+export FZF_DEFAULT_OPTS="--reverse --prompt ' ' --color=prompt:#19cb00,marker:#19cb00,pointer:#19cb00 --pointer ''"
 find /usr/share/applications ~/.local/share/applications -name '*.desktop' \
 	| xargs -I {} basename {} .desktop \
 	| fzf \

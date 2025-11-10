@@ -18,5 +18,5 @@ vim.keymap.set("n", "<leader>fh", tscope.live_grep, { desc = 'Telescope help tag
 vim.keymap.set("n", "<leader>fd", tscope.diagnostics, { desc = 'Telescope diagnostics'})
 vim.keymap.set("n", "<leader>fr", tscope.lsp_references, { desc = 'Telescope help tags'})
 vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
-vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+vim.keymap.set("n", "gd", tscope.lsp_definitions, opts)
 

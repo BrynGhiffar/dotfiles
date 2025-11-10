@@ -8,14 +8,14 @@ super + Return
 
 # program launcher
 super + @space
-	kitty --class fzfapp -o background_opacity=1.0 -o shell=/bin/bash fzfapp
+	kitty --class fzfapp -o background_opacity=1.0 -o shell=fzfapp
 
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
 
 super + r
-	kitty --class fzfwindow -o background_opacity=1.0 -o shell=/bin/bash bspwm_fzfwindow
+	kitty --class fzfwindow -o background_opacity=1.0 -o shell=bspwm_fzfwindow
 
 #
 # bspwm hotkeys
