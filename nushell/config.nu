@@ -29,8 +29,33 @@ load-env {
 		"/home/bryn/.cargo/bin",
 		"/home/bryn/go/bin",
 		"/usr/lib/jvm/default/bin"
-	])
+	]),
+	PROMPT_COMMAND: { || 
+		let current_dir = ($env.PWD | path expand)
+		let pp = { return "" }
+		let path = if $current_dir starts-with $env.HOME {
+			let relative_path = ($current_dir | str replace $env.HOME "~")
+			$relative_path
+		} else {
+			$current_dir
+		}
+
+		let prompt = [
+			(ansi red),
+			"[火] "
+			(ansi reset),
+			$"(whoami)@(hostname):($path) ",
+			$"\((date now | format date "%H:%M:%S")\)",
+			(ansi blue)
+			(git-prompt-string),
+			"\n"
+		] | str join
+		echo $prompt
+	},
+	PROMPT_COMMAND_RIGHT: { || echo "" },
+	PROMPT_INDICATOR: { || echo " " }
 }
+
 
 do --env {
     let ssh_agent_file = (
@@ -134,5 +159,4 @@ def --env record-screen [screen: string] {
 	log info ("Recording stored at: " ++ $output)
 }
 
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+source ~/dotfiles/nushell/catpuccin_mocha.nu
