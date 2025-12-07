@@ -41,9 +41,7 @@ load-env {
 		}
 
 		let prompt = [
-			(ansi red),
-			"[火] "
-			(ansi reset),
+			(ansi white),
 			$"(whoami)@(hostname):($path) ",
 			$"\((date now | format date "%H:%M:%S")\)",
 			(ansi blue)
@@ -53,7 +51,12 @@ load-env {
 		echo $prompt
 	},
 	PROMPT_COMMAND_RIGHT: { || echo "" },
-	PROMPT_INDICATOR: { || echo " " }
+	PROMPT_INDICATOR: { || echo " " },
+	# For testing garage store
+	AWS_ACCESS_KEY_ID: "GK31f12525ee1a8f687285aef6",
+	AWS_SECRET_ACCESS_KEY: "d7fc6b7bfe4f52ee3214f050ec40e8be39a7594227d30bd05889dd2a2016e6c2"
+	AWS_DEFAULT_REGION: "garage"
+	AWS_ENDPOINT_URL: 'http://localhost:3900'
 }
 
 

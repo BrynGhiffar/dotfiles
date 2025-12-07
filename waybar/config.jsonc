@@ -5,22 +5,22 @@
     // "width": 1280, // Waybar width
     "spacing": 0, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["hyprland/workspaces", "wlr/taskbar", "hyprland/mode", "sway/scratchpad", "custom/media"],
-    // "modules-center": ["hyprland/window"],
-    "modules-right": ["mpd", "pulseaudio/slider", "network", "disk", "cpu", "memory", "clock", "tray"],
+    "modules-left": ["wlr/taskbar", "hyprland/mode", "sway/scratchpad", "custom/media"],
+    "modules-center": ["hyprland/workspaces"],
+    "modules-right": ["mpd", "disk", "cpu", "memory", "clock"],
     // Modules configuration
     "wlr/taskbar": {
       "icon-size": 15,
     },
     "hyprland/workspaces": {
-        "persistent-workspaces": {
-          "1": ["DP-3"],
-          "2": ["DP-3"],
-          "3": ["DP-3"],
-          "4": ["HDMI-A-1"],
-          "5": ["HDMI-A-1"],
-          "6": ["HDMI-A-1"]
-        },
+        // "persistent-workspaces": {
+        //   "1": [],
+        //   "2": ["DP-3"],
+        //   "3": ["DP-3"],
+        //   "4": ["HDMI-A-1"],
+        //   "5": ["HDMI-A-1"],
+        //   "6": ["HDMI-A-1"]
+        // },
         "disable-scroll": true,
         "active-only": false,
         "all-outputs": false,

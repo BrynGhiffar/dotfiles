@@ -38,8 +38,8 @@ button:hover {
 
 #suspend {
     background-image: image(
-      url("/home/bryn/arch-config/wlogout/icons/suspend.png"),
-      url("/home/bryn/arch-config/wlogout/icons/suspend.png")
+      url("/home/bryn/dotfiles/wlogout/icons/suspend.png"),
+      url("/home/bryn/dotfiles/wlogout/icons/suspend.png")
     );
 }
 
@@ -49,14 +49,14 @@ button:hover {
 
 #shutdown {
     background-image: image(
-      url("/home/bryn/arch-config/wlogout/icons/shutdown.png"),
-      url("/home/bryn/arch-config/wlogout/icons/shutdown.png")
+      url("/home/bryn/dotfiles/wlogout/icons/shutdown.png"),
+      url("/home/bryn/dotfiles/wlogout/icons/shutdown.png")
     );
 }
 
 #reboot {
     background-image: image(
-      url("/home/bryn/arch-config/wlogout/icons/reboot.png"),
-      url("/home/bryn/arch-config/wlogout/icons/reboot.png")
+      url("/home/bryn/dotfiles/wlogout/icons/reboot.png"),
+      url("/home/bryn/dotfiles/wlogout/icons/reboot.png")
     );
 }

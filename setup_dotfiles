@@ -30,7 +30,8 @@ SETUP_CONFIG = {
         "dunst",
         "wlogout",
         "polybar",
-        "nushell"
+        "nushell",
+        "matugen"
     ] },
 
     # File Setup

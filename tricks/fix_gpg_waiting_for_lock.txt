@@ -1,0 +1,4 @@
+
+Fix for gpg waiting for lock can be found here:
+
+https://gist.github.com/bahadiraraz/f2fb15b07e0fce92d8d5a86ab33469f7

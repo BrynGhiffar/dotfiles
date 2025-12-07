@@ -1,28 +1,21 @@
-/* ----------- 💫 https://github.com/JaKooLit 💫 -------- */
-/* ..........................................*/
-/* .......Crystal Clear....................... */
-/* ......................................... */
-/* --- 👍 designed by https://github.com/Krautt  👍 --- */
+@import "colors.css";
 
 *{
 	font-family: "JetBrains Mono Nerd Font";
 	font-weight: bold;
 	min-height: 0;	
 	/* set font-size to 100% if font scaling is set to 1.00 using nwg-look */
-	font-size: 97%;
+	font-size: 0.75rem;
 	font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
-	padding: 1px;
 }
 	
 window#waybar {
 	background:transparent;
 	border-radius: 1px;
-	color: whitesmoke;
+	color: @on_surface;
+
 }
 	
-window#waybar.hidden {
-	opacity: 0.5;
-}
 window#waybar.empty {
 	background-color: transparent;
 }
@@ -34,12 +27,12 @@ window#waybar.empty #window {
 }
 	   
 tooltip {
-	background: #1e1e2e;
-	border-radius: 10px;
-	border-width: 2px;
-	border-style: solid;
-	border-color: #11111b;
-	color: #cba6f7;
+	/* background: #1e1e2e; */
+	/* border-radius: 10px; */
+	/* border-width: 2px; */
+	/* border-style: solid; */
+	/* border-color: #11111b; */
+	/* color: #cba6f7; */
 }
 
 /*-----module groups----*/
@@ -56,121 +49,59 @@ tooltip {
 }
 
 #workspaces button {
-  border: none;
-	color: #6E6A86;
-   	box-shadow: none;
-	text-shadow: none;
-   	padding: 0px;
-   	border-radius: 9px;
-   	padding-left: 4px;
-   	padding-right: 4px;
-   	animation: gradient_f 20s ease-in infinite;
-   	transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);
+	margin: 0.5rem 0.5rem;
+	border: none;
+   	border-radius: 15px;
+	background-color: @primary;
+	color: #121212;
+	transition: all 200ms linear;
+	background: @primary_container;
+	color: @on_primary_container;
 }
-   
+
 #workspaces button.active {
-	color: whitesmoke;
-   	border-radius: 15px 15px 15px 15px;
-   	animation: gradient_f 20s ease-in infinite;
-   	transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+	padding-left: 16px;
+	padding-right: 16px;
+   	transition: all 200ms linear;
+}
+
+#workspaces button.focused {
+	background-color: @primary-container;
 }
   
-#workspaces button.focused {
-	color: #d8dee9;
-}
-   
-#workspaces button.urgent {
-	color: #11111b;
-	border-radius: 10px;
-}
-	   
-#workspaces button:hover {
-  background: none;
-	color: whitesmoke;
-    border-radius: 15px;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-}
-	
-#backlight,
-#battery,
-#bluetooth,
-#cava,
 #clock,
-#cpu,
-#disk,
-#idle_inhibitor,
-#keyboard-state,
-#memory,
-#mode,
-#mpris,
-#network,
+#battery,
 #pulseaudio,
-#taskbar,
-#temperature,
-#tray,
-#window,
-#wireplumber,
-#workspaces,
-#custom-cycle_wall,
-#custom-keybinds,
-#custom-keyboard,
-#custom-light_dark,
-#custom-lock,
-#custom-menu,
-#custom-power_vertical,
-#custom-power,
-#custom-spotify,
-#custom-updater,
-#custom-weather,
-#custom-weather.clearNight,
-#custom-weather.cloudyFoggyDay,
-#custom-weather.cloudyFoggyNight,
-#custom-weather.default 
-#custom-weather.rainyDay,
-#custom-weather.rainyNight,
-#custom-weather.severe,
-#custom-weather.showyIcyDay,
-#custom-weather.snowyIcyNight,
-#custom-weather.sunnyDay {
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-right: 6px;
-	padding-left: 6px;
+#disk,
+#memory,
+#cpu,
+#network {
+	padding: 0 10px;
+	border-radius: 20px;
+	margin: 0.5rem 0.5rem;
+	background-color: @primary_container;
+	color: @on_primary_container;
 }
 	 
 #temperature.critical {
 	background-color: #ff0000;
 }
    
-@keyframes blink {
-	to {
-	color: #000000;
-	   }
-}
-
 #taskbar button {
-  padding-left: 3px;
-  padding-right: 3px;
-  margin-left: 5px;
+	margin: 0.5rem 0.5rem;
+  padding-left: 10px;
+  padding-right: 10px;
   border: none;
   box-shadow: none;
   outline: none;
   text-shadow: none;
-  /* background: black; */
-  /* background: #505363; */
-  background: none;
+  border-radius: 15px;
+	background-color: @primary_container;
+	color: @on_primary_container;
 }
 
-#taskbar button:hover {
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-}
-   
 #taskbar button.active {
-	background-color: #7f849c;
-    animation: gradient_f 20s ease-in infinite;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+	background-color: @primary;
 }
 	   
 #battery.critical:not(.charging) {
@@ -195,13 +126,13 @@ tooltip {
 	min-width: 80px;  
 	min-height: 10px; 
 	border-radius: 5px;
-	background-color: black;
+	background-color: @primary;
 }
 
 #pulseaudio-slider highlight {
 	min-height: 10px; 
 	border-radius: 5px;
-	background-color: wheat;
+	background-color: @secondary;
 }
 
 #backlight-slider slider {
@@ -225,5 +156,3 @@ tooltip {
 	border-radius: 5px;
 	background-color: wheat;
 }
-	
-	

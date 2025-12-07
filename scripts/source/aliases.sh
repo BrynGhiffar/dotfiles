@@ -5,7 +5,7 @@ alias grep='grep --color=auto'
 alias qtile-logs='less +G ~/.local/share/qtile/qtile.log'
 alias vim='nvim'
 alias nv='nvim'
-alias config='ranger /home/bryn/arch-config'
+alias config='ranger /home/bryn/dotfiles'
 alias icat='kitten icat'
 
 # Desktop crashes for some reason if I don't put this
