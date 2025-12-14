@@ -11,6 +11,7 @@
 </div>
 
 https://github.com/user-attachments/assets/feee7e33-d5e7-4954-9286-d4d1a32dbae7
+
 ![Desktop](/screenshots/desktop_image.png)
 
 ## 👨🏻‍💻 Stack
