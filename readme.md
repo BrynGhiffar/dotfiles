@@ -22,7 +22,7 @@ This repo hosts a lot of configuration that I have used in the past. Currently I
 ### 🚀 Status Bar: [Waybar](https://github.com/Alexays/Waybar)
 > Works well with hyprland, customizable using a css-like config file.
 
-### ⌨️ Terminal Emulator: [Kitty](https://github.com/kovidgoyal/kitty)
+### ⬛ Terminal Emulator: [Kitty](https://github.com/kovidgoyal/kitty)
 > Can render images, supports ligatures, feels fast.
 
 ### 📝 Text Editor: [Nvim](https://github.com/neovim/neovim)
