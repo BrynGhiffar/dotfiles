@@ -26,11 +26,11 @@
         "all-outputs": false,
         "warp-on-scroll": false,
         // "format": "{name}: {icon}",
-        "format": "{name}",
+        "format": "{icon}",
         "format-icons": {
             "1": "",
             "2": "",
-            "3": "",
+            "3": "",
             "4": "",
             "5": "",
             "urgent": "",

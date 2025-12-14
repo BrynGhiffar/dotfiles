@@ -17,12 +17,13 @@ vim.keymap.set("n", "<leader>fb", tscope.buffers, { desc = 'Telescope buffers'})
 vim.keymap.set("n", "<leader>fh", tscope.live_grep, { desc = 'Telescope help tags'})
 vim.keymap.set("n", "<leader>fd", tscope.diagnostics, { desc = 'Telescope diagnostics'})
 vim.keymap.set("n", "<leader>fr", tscope.lsp_references, { desc = 'Telescope help tags'})
+vim.keymap.set("n", "<leader>nt", function() vim.cmd("tab split")end)
 vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
 vim.keymap.set("n", "gd", tscope.lsp_definitions, opts)
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 vim.keymap.set('t', '<C-[>', '<C-\\><C-n>', { noremap = true, silent = true })
 
--- Lua code for your init.lua
+-- Lua code for your init.lu
 vim.keymap.set("n", "<leader>st", function()
 	vim.cmd.split()
 	vim.cmd.wincmd("J")
