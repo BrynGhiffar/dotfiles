@@ -1,6 +1,6 @@
 
 <div align="center">
-    <h1r
+    <h1>
         ✨ Dotfiles
     </h1>
     <p></p>
