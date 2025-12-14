@@ -3,12 +3,13 @@
     <h1>
         ✨ Dotfiles
     </h1>
-    <p></p>
+    <p><i>Minimal, Sleek and Fun Dotfiles configuration.</i></p>
 </div>
 <div align="center">
     <a href="https://github.com/hyprwm/Hyprland"><img src="https://img.shields.io/badge/WM-Hyprland-272E48?style=for-the-badge&logo=i3&logoColor=fff"></a>
     <a href="https://github.com/neovim/neovim"><img src="https://img.shields.io/badge/Editor-Nvim-272E48?style=for-the-badge&logo=neovim&logoColor=white"></a>
 </div>
+
 
 https://github.com/user-attachments/assets/feee7e33-d5e7-4954-9286-d4d1a32dbae7
 
