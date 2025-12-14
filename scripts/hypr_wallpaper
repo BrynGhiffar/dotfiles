@@ -1,11 +1,5 @@
 #!/usr/bin/bash
 
-# monitor=$(echo -e '0\n1' | fzf --prompt 'monitor ')
-#
-# if [ -z "$monitor" ]; then
-# 	exit 0;
-# fi
-
 image=$(find \
 	~/dotfiles/wallpapers \
 	/usr/share/backgrounds/archlinux \
@@ -19,15 +13,5 @@ if [ -z "$image" ]; then
 	exit 0;
 fi
 
-# awww img "$image" --transition-type wipe
 matugen image "$image"
-sleep 1
-# nitrogen --head=0 --set-auto $image --save
-# nitrogen --head=1 --set-auto $image --save
-# wal -i $image -n -s -e --cols16 darken
-
-# xrdb ~/.cache/wal/colors.Xresources
-# polybar-msg cmd restart
-
-# reload qtile
-# qtile cmd-obj -o cmd -f reload_config
+sleep 1 # Doesn't work if I remove this for some reason
