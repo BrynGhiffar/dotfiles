@@ -1,4 +1,5 @@
-name: Conditional Job Execution
+name: BC Test
+run-name: 'BC Test on ${{ github.ref_name }}@${{ github.sha }}'
 on:
   workflow_dispatch:
     inputs:
@@ -8,41 +9,135 @@ on:
         default: ''
 
 jobs:
-  job-to-skip:
-    runs-on: ubuntu-latest
-    # This condition will always be false, so the job is skipped
-    if: ${{
-        !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'job-to-skip')
-      }}
-    steps:
-      - name: This step will never run
-        run: echo "Skipping this job."
 
-  dependent-job:
+  # Cluster 1
+  xpedaus:
+    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpedaus') }}
     runs-on: ubuntu-latest
-    needs: [job-to-skip]
-    # This condition allows the job to run if the needed job was 'success' OR 'skipped'
-    # Adding !cancelled() allows manual cancellation from the GitHub UI
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpetrpd:
+    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpetrpd') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpeprdt:
+    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpeprdt') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpedata:
+    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpedata') }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+
+  # Cluster 2
+  xpesrch:
+    needs: [xpedaus, xpetrpd, xpeprdt, xpedata]
     if: ${{
         !failure()
         && !cancelled()
-        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'dependent-job') && 
-        (needs.job-to-skip.result == 'success' || needs.job-to-skip.result == 'skipped')
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpesrch') 
+        && (needs.xpedaus.result == 'success' || needs.xpedaus.result == 'skipped') 
+        && (needs.xpetrpd.result == 'success' || needs.xpetrpd.result == 'skipped') 
+        && (needs.xpeprdt.result == 'success' || needs.xpeprdt.result == 'skipped') 
+        && (needs.xpedata.result == 'success' || needs.xpedata.result == 'skipped')
       }}
-    steps:
-      - name: This step runs even if 'job-to-skip' is skipped
-        run: echo "Dependent job is running."
-
-  # Another job that runs after the dependent-job
-  final-job:
     runs-on: ubuntu-latest
-    needs: [dependent-job]
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+
+  xpeijob:
+    needs: [xpedaus, xpetrpd, xpeprdt, xpedata]
     if: ${{
         !failure()
         && !cancelled()
-        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'final-job') && 
-        (needs.dependent-job.result == 'success' || needs.dependent-job.result == 'skipped')
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpeijob') 
+        && (needs.xpedaus.result == 'success' || needs.xpedaus.result == 'skipped') 
+        && (needs.xpetrpd.result == 'success' || needs.xpetrpd.result == 'skipped') 
+        && (needs.xpeprdt.result == 'success' || needs.xpeprdt.result == 'skipped') 
+        && (needs.xpedata.result == 'success' || needs.xpedata.result == 'skipped')
       }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Final job
-        run: echo "Final job is running."
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpebook:
+    needs: [xpedaus, xpetrpd, xpeprdt, xpedata]
+    if: ${{
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpebook') 
+        && (needs.xpedaus.result == 'success' || needs.xpedaus.result == 'skipped') 
+        && (needs.xpetrpd.result == 'success' || needs.xpetrpd.result == 'skipped') 
+        && (needs.xpeprdt.result == 'success' || needs.xpeprdt.result == 'skipped') 
+        && (needs.xpedata.result == 'success' || needs.xpedata.result == 'skipped')
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+
+  # Cluster 3
+  xpedisc:
+    needs: [xpesrch, xpeijob, xpebook]
+    if: ${{
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpedisc') 
+        && (needs.xpesrch.result == 'success' || needs.xpesrch.result == 'skipped') 
+        && (needs.xpeijob.result == 'success' || needs.xpeijob.result == 'skipped') 
+        && (needs.xpebook.result == 'success' || needs.xpebook.result == 'skipped') 
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpeops:
+    needs: [ xpesrch, xpeijob, xpebook ]
+    if: ${{
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpeops') 
+        && (needs.xpesrch.result == 'success' || needs.xpesrch.result == 'skipped') 
+        && (needs.xpeijob.result == 'success' || needs.xpeijob.result == 'skipped') 
+        && (needs.xpebook.result == 'success' || needs.xpebook.result == 'skipped') 
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+
+  # Cluster 4
+  xpepapi:
+    needs: [xpedisc, xpeops]
+    if: ${{
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpepapi') 
+        && (needs.xpedisc.result == 'success' || needs.xpedisc.result == 'skipped') 
+        && (needs.xpeops.result == 'success' || needs.xpeops.result == 'skipped') 
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
+  xpetool:
+    needs: [xpedisc, xpeops]
+    if: ${{
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'xpetool') 
+        && (needs.xpedisc.result == 'success' || needs.xpedisc.result == 'skipped') 
+        && (needs.xpeops.result == 'success' || needs.xpeops.result == 'skipped') 
+      }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Building
+      run: sleep 10 && echo "Finished building"
