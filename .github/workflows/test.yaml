@@ -11,7 +11,8 @@ jobs:
   job-to-skip:
     runs-on: ubuntu-latest
     # This condition will always be false, so the job is skipped
-    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'jobs-to-skip') }}
+    if: |
+      ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'jobs-to-skip') }}
     steps:
       - name: This step will never run
         run: echo "Skipping this job."
