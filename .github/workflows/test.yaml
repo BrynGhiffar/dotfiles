@@ -24,7 +24,9 @@ jobs:
     # This condition allows the job to run if the needed job was 'success' OR 'skipped'
     # Adding !cancelled() allows manual cancellation from the GitHub UI
     if: ${{
-        !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'dependent-job') && 
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'dependent-job') && 
         (needs.job-to-skip.result == 'success' || needs.job-to-skip.result == 'skipped')
       }}
     steps:
@@ -36,7 +38,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [dependent-job]
     if: ${{
-        !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'final-job') && 
+        !failure()
+        && !cancelled()
+        && !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'final-job') && 
         (needs.dependent-job.result == 'success' || needs.dependent-job.result == 'skipped')
       }}
     steps:
