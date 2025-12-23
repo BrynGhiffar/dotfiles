@@ -1,0 +1,37 @@
+name: Conditional Job Execution
+on:
+  workflow_dispatch:
+    inputs:
+      skip_jobs:
+        description: 'Comma-separated list of job names to skip'
+        required: false
+        default: ''
+
+jobs:
+  job-to-skip:
+    runs-on: ubuntu-latest
+    # This condition will always be false, so the job is skipped
+    if: ${{ !contains(fromJson(format('[{0}]', github.event.inputs.skip_jobs)), 'jobs-to-skip') }}
+    steps:
+      - name: This step will never run
+        run: echo "Skipping this job."
+
+  dependent-job:
+    runs-on: ubuntu-latest
+    needs: [job-to-skip]
+    # This condition allows the job to run if the needed job was 'success' OR 'skipped'
+    # Adding !cancelled() allows manual cancellation from the GitHub UI
+    if: |
+      ${{ !cancelled() && 
+      (needs.job-to-skip.result == 'success' || needs.job-to-skip.result == 'skipped') }}
+    steps:
+      - name: This step runs even if 'job-to-skip' is skipped
+        run: echo "Dependent job is running."
+
+  # Another job that runs after the dependent-job
+  final-job:
+    runs-on: ubuntu-latest
+    needs: [dependent-job]
+    steps:
+      - name: Final job
+        run: echo "Final job is running."
