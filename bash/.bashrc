@@ -11,35 +11,17 @@ export FZF_DEFAULT_OPTS="--reverse --prompt ' ' --color=prompt:#19cb00,marker
 if [[ $(hostname) == "home" ]]; then
   # Ask gpg from the terminal
   export GPG_TTY=$(tty)
-  # export GPG_AGENT_INFO=""
-  export QLIC=/home/bryn/q/kdb_plus
 
   # Created by `pipx` on 2024-05-22 04:54:36
   export PATH="$PATH:/home/bryn/.local/bin:/home/bryn/.cargo/bin"
 
   export CC="/usr/bin/clang"
   export CXX="/usr/bin/clang++"
-
-  # The next line updates PATH for the Google Cloud SDK.
-  if [ -f '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc' ]; then . '/home/bryn/Downloads/gcloud/google-cloud-sdk/path.bash.inc'; fi
-
-  # The next line enables shell command completion for gcloud.
-  if [ -f '/home/bryn/Downloads/gcloud/google-cloud-sdk/completion.bash.inc' ]; then . '/home/bryn/Downloads/gcloud/google-cloud-sdk/completion.bash.inc'; fi
 fi
 
 
 if [[ $(hostname) == "archlaptop" ]]; then
   . "$HOME/.cargo/env"
-  # The next line updates PATH for the Google Cloud SDK.
-  if [ -f '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/path.bash.inc' ]; 
-    then . '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/path.bash.inc';
-  fi
-
-  # The next line enables shell command completion for gcloud.
-  if [ -f '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/completion.bash.inc' ];
-    then . '/home/brynghiffar/projects/google-cloud-cli/google-cloud-sdk/completion.bash.inc';
-  fi
-
 fi
 
 # nvm configuration
