@@ -56,7 +56,7 @@ source ~/projects/work/bitwyre/env/activate.sh
 
 # Use setcap for setting port access permission to files
 # sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
-eval $(keychain --eval --quiet id_ed25519)
+# eval $(keychain --eval --quiet id_ed25519)
 
 # Set repeat rate
 # xset r rate 300 40
