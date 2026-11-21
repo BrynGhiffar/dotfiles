@@ -31,7 +31,9 @@ SETUP_CONFIG = {
         "wlogout",
         "polybar",
         "nushell",
-        "matugen"
+        "matugen",
+        "yazi",
+        "conky"
     ] },
 
     # File Setup
@@ -44,6 +46,7 @@ SETUP_CONFIG = {
 }
 
 def create_symlink(source_path: Path, target_path: Path):
+    # TODO: Do backup if exists instead
     if target_path.exists():
         if target_path.is_symlink():
             target_path.unlink()

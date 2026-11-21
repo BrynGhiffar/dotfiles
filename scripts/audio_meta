@@ -1,0 +1,69 @@
+#!/bin/python3
+
+from dataclasses import dataclass
+import subprocess
+import time
+
+@dataclass
+class PlayerCtlMetadata:
+    player: str
+    artist: str
+    title: str
+    artUrl: str | None
+    is_playing: bool
+
+class PlayerCtl:
+    @staticmethod
+    def get_all() -> list[PlayerCtlMetadata]:
+        result = subprocess.run([
+            "sh", "-c", "playerctl --list-all | cut -d '.' -f 1"
+        ], capture_output=True, text=True)
+        players = list(filter(lambda s: len(s) > 0, str(result.stdout).split('\n')))
+        metadatas = [PlayerCtl.get_metadata(player) for player in players]
+        return metadatas
+
+    @staticmethod
+    def get_metadata(player: str) -> PlayerCtlMetadata:
+        result = subprocess.run([ "sh", "-c", f"playerctl -p {player} metadata artist"], capture_output=True, text=True)
+        artist = result.stdout.replace('\n', '')
+        result = subprocess.run([ "sh", "-c", f"playerctl -p {player} metadata title"], capture_output=True, text=True)
+        title = result.stdout.replace('\n', '')
+        result = subprocess.run([ "sh", "-c", f"playerctl -p {player} status"], capture_output=True, text=True)
+        is_playing = result.stdout.replace('\n', '').upper() == "PLAYING"
+        result = subprocess.run([ "sh", "-c", f"playerctl -p {player} metadata mpris:artUrl"], capture_output=True, text=True)
+        artUrl = result.stdout.replace('\n', '')
+        if len(artUrl) == 0:
+            artUrl = None
+        return PlayerCtlMetadata(
+            player=player,
+            artist=artist, 
+            title=title, 
+            artUrl=artUrl,
+            is_playing=is_playing
+        )
+
+def shorten(val: str, max_length: int):
+    if len(val) <= max_length:
+        return val
+    val += ' | '
+    shift = round(time.time()) % max_length
+    res = []
+    for i in range(max_length):
+        res.append(val[(shift + i) % len(val)])
+    return "".join(res)
+
+def main():
+    N = 25
+    result = PlayerCtl.get_all()
+    result = list(filter(lambda x: x.is_playing, result))
+    if len(result) > 0:
+        meta = result[0]
+        if len(meta.artist) > 0:
+            ret = shorten(f"{meta.artist} - {meta.title}", N)
+            print(ret, end='')
+        else:
+            ret = shorten(f"{meta.title}", N)
+            print(ret, end='')
+
+if __name__ == '__main__':
+    main()

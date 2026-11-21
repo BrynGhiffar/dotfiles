@@ -23,4 +23,4 @@ alias q='QLIC=~/q QHOME=~/q rlwrap -r ~/q/l64/q'
 
 alias disk-usage='sudo ncdu / --exclude /mnt'
 alias z="zellij attach"
-
+alias start-wpdm="nohup wpdm >/dev/null 2>&1 &"

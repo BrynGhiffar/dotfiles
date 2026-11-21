@@ -1,0 +1,3 @@
+#!/bin/sh
+
+top -bn1 | grep "Mem :" | awk '{printf  "%.2f%", ($8 / $4) * 100}'

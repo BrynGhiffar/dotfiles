@@ -1,8 +1,8 @@
 {
-    "label": "suspend",
-    "action": "systemctl suspend",
-    "text": "Suspend",
-    "keybind": "u"
+    "label" : "logout",
+    "action" : "loginctl terminate-user $USER",
+    "text" : "Logout",
+    "keybind" : "e"
 }
 {
     "label" : "reboot",

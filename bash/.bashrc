@@ -42,6 +42,11 @@ source ~/projects/work/bitwyre/env/activate.sh
 
 # Set repeat rate
 # xset r rate 300 40
+#
+function help_nohup() {
+	echo "Some commands"
+	echo " nohup command >/dev/null 2>&1   # doesn't create nohup.out"
+}
 
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd

@@ -1,0 +1,8 @@
+[[mgr.prepend_keymap]]
+on = "<Esc>"
+run = "close"
+desc = "Close on escape"
+
+# [[mgr.prepend_keymap]]
+# on = "p"
+# run = [ "shell --orphan -- ghostty --working-directory=%h" ]

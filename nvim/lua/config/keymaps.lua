@@ -20,6 +20,7 @@ vim.keymap.set("n", "<leader>fr", tscope.lsp_references, { desc = 'Telescope hel
 vim.keymap.set("n", "<leader>nt", function() vim.cmd("tab split")end)
 vim.keymap.set("n", "gD", function() vim.lsp.buf.declaration() end, opts)
 vim.keymap.set("n", "gd", tscope.lsp_definitions, opts)
+vim.keymap.set("n", "gl", function() vim.diagnostic.open_float() end, opts)
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
 vim.keymap.set('t', '<C-[>', '<C-\\><C-n>', { noremap = true, silent = true })
 

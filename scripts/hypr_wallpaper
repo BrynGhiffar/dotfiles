@@ -13,5 +13,4 @@ if [ -z "$image" ]; then
 	exit 0;
 fi
 
-matugen image "$image"
-sleep 1 # Doesn't work if I remove this for some reason
+setsid matugen image "$image" --source-color-index 0

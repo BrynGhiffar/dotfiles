@@ -24,11 +24,14 @@ load-env {
 	CXX: "/usr/bin/clang++",
 	GPG_TTY: (tty),
 	JAVA_HOME: "/usr/lib/jvm/default",
+    RUST_PROJECTS: "/home/bryn/projects/personal/rust"
 	PATH: ($env.PATH | append [
 		"/home/bryn/.local/scripts",
 		"/home/bryn/.cargo/bin",
 		"/home/bryn/go/bin",
-		"/usr/lib/jvm/default/bin"
+		"/usr/lib/jvm/default/bin",
+		"/opt/riscv/bin",
+		"/opt/riscv/include"
 	]),
 	PROMPT_COMMAND: { || 
 		let current_dir = ($env.PWD | path expand)
@@ -59,31 +62,30 @@ load-env {
 	AWS_ENDPOINT_URL: 'http://localhost:3900'
 }
 
-
-do --env {
-    let ssh_agent_file = (
-        $nu.temp-path | path join $"ssh-agent-bryn.nuon"
-    )
-
-    if ($ssh_agent_file | path exists) {
-        let ssh_agent_env = open ($ssh_agent_file)
-        if ($"/proc/($ssh_agent_env.SSH_AGENT_PID)" | path exists) {
-            load-env $ssh_agent_env
-            return
-        } else {
-            rm $ssh_agent_file
-        }
-    }
-
-    let ssh_agent_env = ^ssh-agent -c
-        | lines
-        | first 2
-        | parse "setenv {name} {value};"
-        | transpose --header-row
-        | into record
-    load-env $ssh_agent_env
-    $ssh_agent_env | save --force $ssh_agent_file
-}
+# do --env {
+#     let ssh_agent_file = (
+#         $nu.temp-path | path join $"ssh-agent-bryn.nuon"
+#     )
+#
+#     if ($ssh_agent_file | path exists) {
+#         let ssh_agent_env = open ($ssh_agent_file)
+#         if ($"/proc/($ssh_agent_env.SSH_AGENT_PID)" | path exists) {
+#             load-env $ssh_agent_env
+#             return
+#         } else {
+#             rm $ssh_agent_file
+#         }
+#     }
+#
+#     let ssh_agent_env = ^ssh-agent -c
+#         | lines
+#         | first 2
+#         | parse "setenv {name} {value};"
+#         | transpose --header-row
+#         | into record
+#     load-env $ssh_agent_env
+#     $ssh_agent_env | save --force $ssh_agent_file
+# }
 
 ^gpg-agent --quiet -c
     | lines
@@ -106,6 +108,11 @@ keychain --eval --quiet id_ed25519
 $env.config = {
 	show_banner: false,
 	buffer_editor: "nvim",
+	history: {
+		file_format: "sqlite",
+		isolation: true,
+		sync_on_enter: false,
+	}
 }
 
 alias z = zellij attach
@@ -152,6 +159,7 @@ def --env record-screen [screen: string] {
 	let filepath = "/home/bryn/Downloads/";
 	let output = $filepath ++ $filename
 	let input = $"(":1+" ++ $start_position)"
+	# Need to adjust for screen recording on wayland
 	let res = (ffmpeg 
 		-video_size $size 
 		-framerate 60 
@@ -163,3 +171,4 @@ def --env record-screen [screen: string] {
 }
 
 source ~/dotfiles/nushell/catpuccin_mocha.nu
+source ~/dotfiles/nushell/paru.nu

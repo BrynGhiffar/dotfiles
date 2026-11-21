@@ -1,10 +1,13 @@
+# [config.wallpaper]
+# command = "awww"
+# arguments = ["img", "--transition-type", "center"]
+# set = true
+
 [config.wallpaper]
-command = "awww"
-arguments = ["img", "--transition-type", "center"]
-set = true
+command = "wpdm-cli -t circle -o rand -i {{ image }}"
 
 
 [templates.waybar]
 input_path = './templates/colors.css'
 output_path = '~/.config/waybar/colors.css'
-post_hook = 'pkill -SIGUSR2 waybar'
+post_hook = 'killall -SIGUSR2 waybar'

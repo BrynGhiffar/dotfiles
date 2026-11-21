@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+result=$(hyprctl clients -j | jq -r '.[].class' | grep -E "^$1\$")
+
+if [[ -z "$result" ]]; then
+	kitty --class $1 -o shell=/bin/bash $2
+fi
+
